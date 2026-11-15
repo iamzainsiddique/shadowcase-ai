@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Text-size setting (accessibility). Everything uses rem, so this scales the whole UI. */
+html { font-size: 18px; }
+html[data-size="large"] { font-size: 20px; }
+html[data-size="xl"] { font-size: 23px; }
+
+body {
+  @apply bg-ink-950 text-slate-100 font-sans antialiased;
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(47, 168, 255, 0.16), transparent 40%),
+    radial-gradient(circle at 100% 0%, rgba(154, 123, 255, 0.14), transparent 45%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .card { @apply rounded-2xl border border-ink-600 bg-ink-800/80 backdrop-blur shadow-xl shadow-black/30; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold transition min-h-[48px] focus:outline-none focus-visible:ring-4 focus-visible:ring-electric-400/60 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-gradient-to-r from-electric-500 to-violet-500 text-ink-950 hover:brightness-110; }
+  .btn-ghost { @apply btn border border-ink-600 bg-ink-700/60 text-slate-100 hover:border-electric-400; }
+  .chip { @apply inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold; }
+  .eyebrow { @apply text-sm font-semibold uppercase tracking-[0.18em] text-electric-400; }
+  .h1 { @apply font-display text-4xl sm:text-5xl font-bold leading-tight; }
+  .h2 { @apply font-display text-2xl sm:text-3xl font-bold; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Accessibility settings (set on <html> by src/settings.tsx) ---------- */
+html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* High contrast: brighter text, solid surfaces, stronger borders and focus rings. */
+html[data-contrast="high"] body { background-image: none; background-color: #000; }
+html[data-contrast="high"] .card { background-color: #0b1222; border-color: #9fb3d9; backdrop-filter: none; }
+html[data-contrast="high"] .text-slate-300,
+html[data-contrast="high"] .text-slate-400 { color: #f1f5f9 !important; }
+html[data-contrast="high"] .btn-ghost { border-color: #cbd5e1; background-color: #111a2e; }
+html[data-contrast="high"] *:focus-visible { outline: 3px solid #ffd166 !important; outline-offset: 2px; }
+
+/* Easy Mode: bigger buttons and touch targets, hide purely decorative elements. */
+html[data-easy="true"] .btn { min-height: 60px; font-size: 1.1rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+html[data-easy="true"] .decorative { display: none !important; }
+
+/* ---------- Story Game animations ---------- */
+/* SVG parts rotate/scale around their own centre. */
+.scene-art [class*="anim-"], svg[class*="anim-"] *, svg [class*="anim-"] { transform-box: fill-box; transform-origin: center; }
+
+@keyframes ring { 0%, 50%, 100% { transform: rotate(0); } 5%, 15%, 25%, 35% { transform: rotate(-9deg); } 10%, 20%, 30%, 40% { transform: rotate(9deg); } }
+@keyframes pulseFade { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+@keyframes tick { to { transform: rotate(360deg); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+@keyframes rain { from { transform: translateY(-20px); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(160px); opacity: 0; } }
+@keyframes flicker { 0%, 100% { opacity: 0.35; } 20% { opacity: 0.2; } 40% { opacity: 0.45; } 60% { opacity: 0.25; } 80% { opacity: 0.4; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes bar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+@keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.06); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-22deg); } }
+@keyframes glow { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+@keyframes dash { to { stroke-dashoffset: -40; } }
+@keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } }
+@keyframes drift { 0% { transform: translate(0, 0) rotate(0); opacity: 1; } 100% { transform: translate(60px, -160px) rotate(25deg); opacity: 0; } }
+@keyframes mouth { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }
+@keyframes sceneIn { from { opacity: 0; transform: scale(1.03); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes lineIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.anim-ring { animation: ring 2.4s ease-in-out infinite; }
+.anim-pulse { animation: pulseFade 1.2s ease-in-out infinite; }
+.anim-tick { animation: tick 6s linear infinite; }
+.anim-twinkle { animation: twinkle 2.4s ease-in-out infinite; }
+.anim-rain { animation: rain 1.3s linear infinite; }
+.anim-flicker { animation: flicker 3s ease-in-out infinite; }
+.anim-float { animation: float 3.2s ease-in-out infinite; }
+.anim-bar { animation: bar 0.9s ease-in-out infinite; }
+.anim-pop { animation: pop 0.7s ease-out both; }
+.anim-wave { animation: wave 1.1s ease-in-out infinite; }
+.anim-glow { animation: glow 2.2s ease-in-out infinite; }
+.anim-dash { animation: dash 1.2s linear infinite; }
+.anim-beat { animation: beat 1.6s ease-in-out infinite; }
+.anim-drift { animation: drift 3.6s ease-in infinite; }
+/* mouth moves for a few seconds when a character starts speaking */
+.anim-talk .anim-mouth { animation: mouth 0.35s ease-in-out 8; animation-delay: var(--talk-delay, 0s); }
+.delay-1 { animation-delay: 0.5s; }
+.delay-2 { animation-delay: 1s; }
+
+/* Scene transitions and dialogue that appears line by line. */
+.scene-in { animation: sceneIn 0.7s ease-out both; }
+.line-in { animation: lineIn 0.5s ease-out both; }
+
+/* ---- Read-aloud highlight: the item being read glows so people can follow along ---- */
+.reading-target {
+  border-radius: 1rem;
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+.reading-target.is-reading {
+  background-color: rgb(47 168 255 / 0.12);
+  box-shadow: 0 0 0 3px #2fa8ff, 0 0 24px rgb(47 168 255 / 0.45);
+}
+.reading-tag {
+  position: absolute;
+  top: -0.85rem;
+  right: 0.75rem;
+  z-index: 2;
+  border-radius: 999px;
+  background: #2fa8ff;
+  color: #04121f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.1rem 0.6rem;
+  animation: tagPulse 1.6s ease-in-out infinite;
+}
+@keyframes tagPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
+[data-contrast="high"] .reading-target.is-reading {
+  background-color: rgb(255 230 0 / 0.15);
+  box-shadow: 0 0 0 4px #ffe600;
+}
+[data-contrast="high"] .reading-tag { background: #ffe600; color: #000; }
+[data-motion="reduce"] .reading-tag { animation: none; }

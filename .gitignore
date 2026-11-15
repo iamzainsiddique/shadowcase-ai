@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.claude
+.DS_Store
+# The hackathon briefs are kept private (they are the organisers' text, not ours).
+docs/BRIEF.md
+docs/IMPROVEMENT_BRIEF.md

@@ -31,6 +31,16 @@ const LOOKS: Partial<Record<CharacterId, Look>> = {
   kofi: { skin: "#5c3a26", hair: "#141414", hairStyle: "short", top: "#ffd166" },
   ray: { skin: "#2a1420", hair: "#2a1420", hairStyle: "none", top: "#2a1420", tie: true, shadow: true },
   ama: { skin: "#6b4430", hair: "#141414", hairStyle: "long", top: "#9a7bff" },
+  sue: { skin: "#f1c9a5", hair: "#a0522d", hairStyle: "bob", top: "#5cc8ff" },
+  tom: { skin: "#f1c9a5", hair: "#9ca3af", hairStyle: "receding", top: "#2fa86f" },
+  fakeella: { skin: "#2a1420", hair: "#2a1420", hairStyle: "none", top: "#2a1420", shadow: true },
+  ella: { skin: "#f1c9a5", hair: "#a0522d", hairStyle: "long", top: "#e879a6" },
+  raj: { skin: "#a8714f", hair: "#141414", hairStyle: "short", top: "#ff9f43" },
+  mina: { skin: "#a8714f", hair: "#141414", hairStyle: "long", top: "#5fe3a1" },
+  taxcaller: { skin: "#2a1420", hair: "#2a1420", hairStyle: "none", top: "#2a1420", tie: true, shadow: true },
+  doreen: { skin: "#f1c9a5", hair: "#e5e7eb", hairStyle: "curly", top: "#9a7bff", glasses: true },
+  fakecop: { skin: "#2a1420", hair: "#2a1420", hairStyle: "none", top: "#2a1420", shadow: true },
+  bello: { skin: "#5c3a26", hair: "#141414", hairStyle: "short", top: "#9a7bff", tie: true },
 };
 
 export function Avatar({ id, size = 56, talking = false, talkDelay = 0 }: { id: CharacterId; size?: number; talking?: boolean; talkDelay?: number }) {

@@ -51,7 +51,7 @@ const STEP_READ: Record<StepId, string> = {
   investigate: `Step 1. Look for clues. Scammers leave clues in their words. Tap the parts of this message that seem suspicious. The message says: ${SAMPLE}`,
   decide: "Step 2. Make a decision. Each choice can lead to different consequences. What would you do with that message? Option 1: Pay the £2 fee to get the prize. Option 2: Delete the message and don't reply.",
   rewind: "Step 3. Rewind and compare. Rewind lets you go back to a decision and pick something else, then compare what happens.",
-  modes: "Step 4. Two ways to play. The Story Game lets you live five different scams, as the person targeted or as their family or bank, and discover different endings. No AI needed. AI Detective lets you investigate with an AI partner, or practise with the message scanner. Switch any time with the buttons at the top. The Home button always brings you back to the start.",
+  modes: "Step 4. Two ways to play. The Story Game lets you live eight different scams, as the person targeted or as their family or bank, and discover different endings. No AI needed. AI Detective lets you investigate with an AI partner, or practise with the message scanner. Switch any time with the buttons at the top. The Home button always brings you back to the start.",
   comfort: "Step 5. Make it comfortable. You can turn on Easy Mode for bigger text and simpler screens, and Read aloud automatically, so every new message is read out to you. If it's off, press the speaker button on any message to hear it. You can also choose a female or male voice for the assistant.",
 };
 
@@ -182,7 +182,7 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl border border-electric-400/50 bg-electric-500/10 p-4">
                 <p className="font-display text-xl font-bold">🎭 Story Game</p>
-                <p>Live 5 different scams as the person targeted, or as their family or bank. Talk to characters and discover different endings. No AI needed. Best place to start.</p>
+                <p>Live 8 different scams as the person targeted, or as their family or bank. Talk to characters and discover different endings. No AI needed. Best place to start.</p>
               </div>
               <div className="rounded-xl border border-violet-400/50 bg-violet-500/10 p-4">
                 <p className="font-display text-xl font-bold">🤖 AI Detective</p>

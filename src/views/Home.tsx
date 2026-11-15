@@ -34,7 +34,7 @@ export function Home({ onStory, onSurprise, onQuiz, onDetective, onTutorial }: P
             badge="No AI needed · Best for first-timers"
             title="Story Game"
             subtitle="Live the scam from different sides"
-            points={[`${SCENARIOS.length} scams: ${SCENARIOS.map((s) => s.icon).join(" ")} phone, bank, parcel text, romance, investment`, "Play as the person targeted, their family or the bank", "Different details every time, rewind any choice"]}
+            points={[`${SCENARIOS.length} scams: ${SCENARIOS.map((s) => s.icon).join(" ")}`, "Play as the person targeted, their family or the bank", "Different details every time, rewind any choice"]}
             cta="Play the Story Game"
             onClick={onStory}
             accent="from-electric-500 to-electric-400"

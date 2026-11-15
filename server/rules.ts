@@ -9,13 +9,13 @@ interface Rule {
 }
 
 const RULES: Rule[] = [
-  { tactic: "false_urgency", pattern: /\b(within \d+ (minutes?|hours?)|immediately|right now|urgent(ly)?|act now|today only|last chance|expires? (today|tonight|soon)|final (notice|warning))\b/i, explanation: "Creates a deadline so you act before checking." },
+  { tactic: "false_urgency", pattern: /\b(within \d+ (minutes?|hours?)|immediately|right now|urgent(ly)?|act now|today only|last chance|expires? (today|tonight|soon)|final (notice|warning)|only \d+ (places|spots|spaces) left)\b/i, explanation: "Creates a deadline so you act before checking." },
   { tactic: "fear_pressure", pattern: /\b(frozen|suspended|locked|blocked|arrest(ed)?|warrant|legal action|penalt(y|ies)|closed permanently|will be (closed|terminated|cancelled))\b/i, explanation: "Uses a threat to make you panic." },
   { tactic: "authority_impersonation", pattern: /\b(fraud (team|department)|security (team|department)|(hmrc|irs|tax office|police|government|customs)|dear (valued )?customer|account (team|services))\b/i, explanation: "Claims to be an authority; you can't confirm who is really writing." },
   { tactic: "sensitive_info_request", pattern: /\b((reply|respond|text|send|provide|confirm|share|read|tell)( us| me)?( with)?( your| the)? ((one[- ]time |verification |security |6[- ]digit )?(code|pin|password|passcode)|card (number|details)|cvv|login details|bank details|national insurance|social security))\b/i, explanation: "Asks for private details that a real organisation would never request this way." },
   { tactic: "suspicious_link", pattern: /\b((https?:\/\/)?[a-z0-9-]+-(secure|verify|login|update|support|refund|claim)[a-z0-9-]*\.[a-z.]{2,}(\/\S*)?|bit\.ly\/\S+|tinyurl\.com\/\S+|click (here|the link|below))/i, explanation: "Link or instruction that may lead to a look-alike site." },
   { tactic: "unusual_payment", pattern: /\b(gift cards?|itunes|steam cards?|bitcoin|crypto(currency)?|wire transfer|safe account|western union|moneygram|processing fee|release fee|pay (a|the) (small )?fee)\b/i, explanation: "Asks for a payment method that is hard to reverse." },
-  { tactic: "too_good_to_be_true", pattern: /\b(you('ve| have)? won|winner|prize|claim your|free (iphone|gift|money)|guaranteed (returns?|profit)|double your|risk[- ]free|lottery|inheritance)\b/i, explanation: "Offers something unexpected and generous to lure you in." },
+  { tactic: "too_good_to_be_true", pattern: /\b(you('ve| have)? won|winner|prize|claim your|free (iphone|gift|money)|guaranteed (returns?|profit)|\d+% (a|per|every) (day|week|month)|double your|risk[- ]free|lottery|inheritance)\b/i, explanation: "Offers something unexpected and generous to lure you in." },
   { tactic: "emotional_manipulation", pattern: /\b(don'?t tell (anyone|your family)|keep this (secret|between us)|(mum|mom|dad|grandma|grandpa)[, ]+(it'?s me|i lost my phone|new number)|i'?m in trouble|please help me|my darling|i love you)\b/i, explanation: "Plays on emotions or asks for secrecy." },
 ];
 

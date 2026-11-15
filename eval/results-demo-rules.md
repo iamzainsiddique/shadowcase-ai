@@ -1,6 +1,6 @@
 # Evaluation results — demo-rules
 
-Run on 2026-11-15T18:34:54.891Z over 24 fictional, hand-labelled messages (`data/eval-messages.json`).
+Run on 2026-11-15T21:33:33.345Z over 24 fictional, hand-labelled messages (`data/eval-messages.json`).
 
 | Metric | Value |
 |---|---|

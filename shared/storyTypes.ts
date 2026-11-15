@@ -24,7 +24,20 @@ export type CharacterId =
   // The VIP Group
   | "kofi"
   | "ray"
-  | "ama";
+  | "ama"
+  // Hi Mum, New Number
+  | "sue"
+  | "tom"
+  | "fakeella"
+  | "ella"
+  // The Tax Refund
+  | "raj"
+  | "mina"
+  | "taxcaller"
+  // The Courier
+  | "doreen"
+  | "fakecop"
+  | "bello";
 
 export interface Character {
   name: string;
@@ -79,7 +92,9 @@ export type SceneArtId =
   | "investment_crash"
   | "money_gone"
   | "family_talk"
-  | "reported";
+  | "reported"
+  | "phone_message"
+  | "cash_handover";
 
 export interface StoryNode {
   id: string;

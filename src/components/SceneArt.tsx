@@ -369,20 +369,21 @@ const scenes: Record<SceneArtId, (v: Vars) => JSX.Element> = {
     </Frame>
   ),
 
-  spoofed_call: () => (
-    <Frame id="sp" label="A phone shows a call from the bank, but behind it a shadowy figure holds up a bank mask." tint="#ff7a8a">
+  spoofed_call: (v) => (
+    <Frame id="sp" label={`A phone shows a call from ${v.callerId ?? "the bank"}, but behind it a shadowy figure holds up a mask.`} tint="#ff7a8a">
       <circle cx="330" cy="160" r="160" fill="url(#sp-glow)" />
       <Phone x={300} y={165} scale={0.9}>
         <text x="0" y="-70" textAnchor="middle" fontSize="15" fill="#94a3b8" fontFamily="Inter, sans-serif">Incoming call</text>
-        <text x="0" y="-40" textAnchor="middle" fontSize="19" fontWeight="700" fill="#e2e8f0" fontFamily="Space Grotesk, sans-serif">NORTHBRIDGE</text>
-        <text x="0" y="-16" textAnchor="middle" fontSize="19" fontWeight="700" fill="#e2e8f0" fontFamily="Space Grotesk, sans-serif">BANK</text>
+        {(v.callerId ?? "NORTHBRIDGE BANK").split(" ").slice(0, 2).map((w, i, all) => (
+          <text key={w} x="0" y={all.length === 1 ? -28 : -40 + i * 24} textAnchor="middle" fontSize="19" fontWeight="700" fill="#e2e8f0" fontFamily="Space Grotesk, sans-serif">{w}</text>
+        ))}
         <circle className="anim-pulse" cx="-40" cy="90" r="22" fill="#5fe3a1" />
         <circle cx="40" cy="90" r="22" fill="#ff7a8a" />
       </Phone>
       <ShadowCaller x={590} y={140} />
       <g className="anim-float" transform="translate(520 210) rotate(-10)">
         <rect x="-56" y="-28" width="112" height="56" rx="12" fill="#9a7bff" />
-        <text x="0" y="8" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0b1222" fontFamily="Space Grotesk, sans-serif">"BANK"</text>
+        <text x="0" y="8" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0b1222" fontFamily="Space Grotesk, sans-serif">"{(v.callerId ?? "BANK").split(" ").pop()}"</text>
       </g>
       <text x="590" y="295" textAnchor="middle" fontSize="18" fill="#ff7a8a" fontFamily="Inter, sans-serif">Any name can appear on your screen</text>
     </Frame>
@@ -591,6 +592,48 @@ const scenes: Record<SceneArtId, (v: Vars) => JSX.Element> = {
         <text x="0" y="22" textAnchor="middle" fontSize="16" fontWeight="700" fill="#5fe3a1" fontFamily="Inter, sans-serif">number on card</text>
       </g>
       <text x="400" y="300" textAnchor="middle" fontSize="20" fill="#5fe3a1" fontFamily="Space Grotesk, sans-serif">Stopped and reported</text>
+    </Frame>
+  ),
+  phone_message: () => (
+    <Frame id="pm" label="A phone with chat messages from an unknown number, and a shadowy figure typing behind it." tint="#5fe3a1">
+      <circle cx="320" cy="160" r="160" fill="url(#pm-glow)" />
+      <Phone x={300} y={165} scale={0.9}>
+        <text x="0" y="-100" textAnchor="middle" fontSize="13" fill="#94a3b8" fontFamily="Inter, sans-serif">Unknown number</text>
+        <g className="anim-pop">
+          <rect x="-66" y="-84" width="120" height="40" rx="12" fill="#26324f" />
+          <rect x="-54" y="-70" width="90" height="8" rx="4" fill="#cbd5e1" />
+          <rect x="-54" y="-56" width="60" height="8" rx="4" fill="#cbd5e1" />
+          <rect x="-50" y="-30" width="116" height="40" rx="12" fill="#2fa86f" />
+          <rect x="-38" y="-16" width="86" height="8" rx="4" fill="#0b1222" opacity="0.6" />
+          <rect x="-66" y="24" width="124" height="40" rx="12" fill="#26324f" />
+          <rect x="-54" y="38" width="96" height="8" rx="4" fill="#ff7a8a" />
+        </g>
+        <g className="anim-pulse">
+          <circle cx="-30" cy="96" r="5" fill="#94a3b8" />
+          <circle cx="-14" cy="96" r="5" fill="#94a3b8" />
+          <circle cx="2" cy="96" r="5" fill="#94a3b8" />
+        </g>
+      </Phone>
+      <ShadowCaller x={590} y={150} />
+      <text x="590" y="290" textAnchor="middle" fontSize="18" fill="#ff7a8a" fontFamily="Inter, sans-serif">Who's really typing?</text>
+    </Frame>
+  ),
+  cash_handover: (v) => (
+    <Frame id="ch" label="A front door with an envelope of cash, and a shadowy 'courier' waiting outside." tint="#ff7a8a">
+      <circle cx="560" cy="160" r="150" fill="url(#ch-glow)" />
+      <g transform="translate(220 40)">
+        <rect x="0" y="0" width="150" height="260" rx="6" fill="#5c3d2e" stroke="#26324f" strokeWidth="6" />
+        <rect x="18" y="20" width="114" height="90" rx="4" fill="#7a5340" />
+        <rect x="18" y="130" width="114" height="110" rx="4" fill="#7a5340" />
+        <circle cx="125" cy="140" r="7" fill="#ffd166" />
+      </g>
+      <g className="anim-float" transform="translate(440 190)">
+        <rect x="-60" y="-36" width="120" height="72" rx="6" fill="#e2e8f0" />
+        <path d="M-60 -36 L0 6 L60 -36" stroke="#94a3b8" strokeWidth="4" fill="none" />
+        <text x="0" y="28" textAnchor="middle" fontSize="18" fontWeight="700" fill="#0b1222" fontFamily="Space Grotesk, sans-serif">{v.cash ?? "£££"}</text>
+      </g>
+      <ShadowCaller x={640} y={150} />
+      <text x="640" y="290" textAnchor="middle" fontSize="18" fill="#ff7a8a" fontFamily="Inter, sans-serif">Police never collect cash</text>
     </Frame>
   ),
 };

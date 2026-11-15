@@ -2,7 +2,7 @@
 //
 // speak() reads a list of items one after another. Each item can carry an `id`; while that item is
 // being read, components showing it can highlight themselves (see <Readable> and useSpeech()).
-import { createContext, useContext, useEffect, useSyncExternalStore } from "react";
+import { createContext, useContext, useEffect, useRef, useSyncExternalStore } from "react";
 import { useSettings } from "./settings";
 import { castVoices, type Cast, type Gender, type VoiceRole } from "./voices";
 
@@ -149,16 +149,24 @@ export function stopSpeaking() {
 export const VisibleContext = createContext(true);
 
 /**
- * When "Read aloud automatically" is on, reads `items` every time `key` changes
- * (for example when a new story scene or tutorial step appears).
- * When it's off, nothing happens and people use the 🔊 buttons instead.
+ * Runs whenever new content appears (the `key` changes, or the screen becomes visible):
+ * - "Read aloud automatically" on: reads `items` (which also cuts off whatever was being read before);
+ * - off: stops anything still being read from the previous screen, so it never carries on after
+ *   the player presses Continue or picks an option. People then use the 🔊 / ▶ buttons.
  */
 export function useAutoRead(items: SpeechItem[], key: string, active = true, queueId?: string) {
   const { settings } = useSettings();
   const visible = useContext(VisibleContext);
   const on = active && visible;
+  const prev = useRef<{ key: string; on: boolean; auto: boolean } | null>(null);
   useEffect(() => {
-    if (settings.autoRead && on) speak(items, { queueId: queueId ?? key });
+    const p = prev.current;
+    prev.current = { key, on, auto: settings.autoRead };
+    if (!on) return;
+    const newContent = !p || !p.on || p.key !== key;
+    const autoJustTurnedOn = !!p && !p.auto && settings.autoRead;
+    if (settings.autoRead && (newContent || autoJustTurnedOn)) speak(items, { queueId: queueId ?? key });
+    else if (newContent) stopSpeaking();
     // Only re-run when the content key changes (or the screen becomes visible), not on every render.
   }, [key, settings.autoRead, on]); // eslint-disable-line react-hooks/exhaustive-deps
 }

@@ -7,10 +7,27 @@ import { ErrorBox, Loading, Tip } from "../components/ui";
 import { useAutoRead } from "../speech";
 
 const EXAMPLES = [
-  "Royal Parcel Service: your package is on hold due to an unpaid £1.99 fee. Pay within 24 hours at rps-delivery-update.com or it will be returned.",
+  "Rapid Parcel Service: your package is on hold due to an unpaid £1.99 fee. Pay within 24 hours at rps-delivery-update.com or it will be returned.",
   "Mum it's me, I dropped my phone in the sink, this is my new number. Can you help me pay a bill urgently? Don't tell dad, I'll explain later x",
   "Northbridge Bank: Your monthly statement is now ready. Log in through the Northbridge app to view it. We will never ask for your PIN or passcode.",
 ];
+
+/** A bigger, mixed pool for "🎲 Random example": scams of different kinds and genuine messages. All fictional. */
+const RANDOM_POOL = [
+  ...EXAMPLES,
+  "TAX OFFICE: You are due a tax refund of £326.40. Claim within 24 hours: tax-refund-claim.info/verify",
+  "This is DC Harris from Westmere Police. Your card has been used for fraud. Withdraw £4,000 in cash and a courier will collect it as evidence. Don't tell the bank staff.",
+  "Congratulations! You've won a £500 supermarket voucher. Just pay £2.99 postage to claim your prize: prize-claim-centre.net",
+  "Hi, Coach Ray here 🚀 Our VIP members are making 40% a week, guaranteed. Deposit £250 today, only 5 places left!",
+  "My darling, my bank account is frozen here on the base. I need £3,000 for a flight home. Please don't tell your son, he won't understand us.",
+  "Northbridge Bank fraud team: your account is at risk. Move your savings to a new safe account today. Don't speak to branch staff.",
+  "ViewNest: your account is suspended. Update your payment details now: viewnest-billing-help.com",
+  "Riverside GP Surgery: reminder of your appointment on Tuesday at 10:20 with Dr Shah. To cancel, please call the surgery.",
+  "Hillcrest Pharmacy: your prescription is ready to collect.",
+  "Your energy supplier: your new bill is ready. Log in to your account through our app to view it.",
+  "BoxHopper: your parcel will arrive tomorrow between 9am and 1pm. Track it in the shop's app.",
+];
+
 
 const VERDICT_STYLE: Record<Verdict, { label: string; cls: string }> = {
   likely_scam: { label: "Likely scam", cls: "bg-danger/15 text-danger border-danger/50" },
@@ -87,6 +104,16 @@ export function Scanner() {
               Example {i + 1}
             </button>
           ))}
+          <button
+            className="btn-ghost !min-h-[40px] !py-1.5 text-sm"
+            onClick={() => {
+              const others = RANDOM_POOL.filter((m) => m !== message);
+              setMessage(others[Math.floor(Math.random() * others.length)]);
+              setResult(null);
+            }}
+          >
+            🎲 Random example
+          </button>
         </div>
       </div>
 

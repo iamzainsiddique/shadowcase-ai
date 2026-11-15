@@ -4,7 +4,7 @@ import { getStatus } from "./api";
 import { SettingsPanel } from "./components/SettingsPanel";
 import { StopReadingButton } from "./components/SpeakButton";
 import { DemoNotice } from "./components/DemoNotice";
-import { VisibleContext } from "./speech";
+import { VisibleContext, stopSpeaking } from "./speech";
 import { Tutorial, tutorialDone } from "./components/Tutorial";
 import { useSettings } from "./settings";
 import { AiDetective, type DetectiveTab } from "./views/AiDetective";
@@ -47,6 +47,7 @@ export default function App() {
   const openQuiz = () => setQuiz(nextQuizPhase());
 
   const go = (v: View, t?: DetectiveTab) => {
+    stopSpeaking();
     setView(v);
     if (t) setTab(t);
     window.scrollTo({ top: 0 });

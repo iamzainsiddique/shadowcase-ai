@@ -80,6 +80,19 @@ const SPECS: Record<CharacterRole, RoleSpec> = {
   kofi: { gender: "male", age: "adult", prefer: ["Microsoft Thomas", "Rishi", "Google UK English Male", "Daniel"], rate: 1.02 },
   ray: { gender: "male", age: "adult", prefer: ["Microsoft Guy", "Google UK English Male", "Daniel", "Rishi"], pitchShift: 0.02, rate: 1.1 },
   ama: { gender: "female", age: "adult", prefer: ["Microsoft Aria", "Tessa", "Karen", "Moira", "Google UK English Female"], rate: 1.0 },
+  // Hi Mum, New Number
+  sue: { gender: "female", age: "adult", prefer: ["Microsoft Libby", "Karen", "Moira", "Google UK English Female"], pitchShift: -0.03, rate: 0.97 },
+  tom: { gender: "male", age: "adult", prefer: ["Microsoft Thomas", "Daniel", "Google UK English Male", "Rishi"], pitchShift: -0.04, rate: 0.97 },
+  fakeella: { gender: "female", age: "adult", prefer: ["Microsoft Aria", "Tessa", "Google US English", "Karen"], pitchShift: 0.05, rate: 1.06 },
+  ella: { gender: "female", age: "adult", prefer: ["Microsoft Maisie", "Moira", "Google UK English Female", "Karen"], pitchShift: 0.06, rate: 1.04 },
+  // The Tax Refund
+  raj: { gender: "male", age: "adult", prefer: ["Rishi", "Microsoft Ryan", "Google UK English Male", "Daniel"], rate: 1.0 },
+  mina: { gender: "female", age: "adult", prefer: ["Microsoft Neerja", "Veena", "Isha", "Tessa", "Google UK English Female"], pitchShift: 0.08, rate: 1.06 },
+  taxcaller: { gender: "male", age: "adult", prefer: ["Microsoft Guy", "Google UK English Male", "Daniel"], pitchShift: -0.05, rate: 1.06 },
+  // The Courier
+  doreen: { gender: "female", age: "older", prefer: ["Microsoft Sonia", "Moira", "Karen", "Google UK English Female"], rate: 0.88 },
+  fakecop: { gender: "male", age: "adult", prefer: ["Microsoft Ryan", "Google UK English Male", "Daniel", "Rishi"], pitchShift: -0.04, rate: 1.02 },
+  bello: { gender: "male", age: "adult", prefer: ["Microsoft Thomas", "Rishi", "Google UK English Male", "Daniel"], rate: 0.98 },
 };
 
 /** Roles that talk in the same scene, so they shouldn't share a voice if it can be helped. */
@@ -91,6 +104,9 @@ const SAME_SCENE: Partial<Record<CharacterRole, CharacterRole[]>> = {
   leo: ["zara", "bankcaller", "okafor"],
   brenda: ["mark", "chris"],
   kofi: ["ray", "ama"],
+  sue: ["fakeella", "ella", "tom"],
+  raj: ["taxcaller", "mina"],
+  doreen: ["fakecop", "bello"],
 };
 const together = (a: CharacterRole, b: CharacterRole) => SAME_SCENE[a]?.includes(b) || SAME_SCENE[b]?.includes(a);
 

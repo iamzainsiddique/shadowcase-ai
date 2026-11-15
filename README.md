@@ -3,7 +3,7 @@
 
 An interactive financial-scam awareness game for beginners and older adults, with two ways to play:
 
-- **🎭 Story Game:** illustrated, animated stories about **5 common scams**: The Midnight Call (fake family emergency), The Safe Account (bank impersonation), The Parcel Text (fake delivery text), The Perfect Match (romance) and The VIP Group (fake investment).
+- **🎭 Story Game:** illustrated, animated stories about **8 common scams**: The Midnight Call (fake family emergency), The Safe Account (bank impersonation), The Parcel Text (fake delivery text), The Perfect Match (romance), The VIP Group (fake investment), Hi Mum, New Number (messaging scam), The Tax Refund (fake tax office) and The Courier (fake police courier fraud).
   - **Different perspectives:** play each scam as the person targeted, or as the family member, friend or bank adviser trying to help. You never play as the scammer.
   - **How the trick works:** a step-by-step look at the scammer's script, with what each line is designed to do and how to beat it.
   - **Never the same twice:** amounts, companies and places change each playthrough, and "🎲 Surprise me" picks a scam for you.
@@ -61,7 +61,7 @@ shadowcase-ai/
 │   ├── case.ts             Case 001 "The Frozen Account" (AI Detective)
 │   ├── story.ts            Story Game registry: characters, scenarios, stories, filling in {details}
 │   ├── storyTypes.ts       Types for scenarios, perspectives, scenes and "How the trick works"
-│   ├── scenarios/          One file per scam: midnight, safeAccount, parcel, romance, investment
+│   ├── scenarios/          One file per scam: midnight, safeAccount, parcel, romance, investment, newNumber, tax, courier
 │   ├── quiz.ts             The 1-minute scam check (two sets of 5 messages)
 │   └── storyEngine.ts      Branching-story engine: choose, collect clues, rewind, score (pure functions)
 ├── server/                 Node + Express API (the only place the AI key is used)
@@ -77,7 +77,7 @@ shadowcase-ai/
 │   │   ├── Tutorial.tsx        6-step interactive onboarding (Next / Back / Skip / Replay)
 │   │   ├── SettingsPanel.tsx   "Display & comfort" dialog
 │   │   ├── ClickableText.tsx   "Tap the suspicious words" mechanic (used by both modes)
-│   │   ├── SceneArt.tsx        20 illustrated, animated story scenes (inline SVG, no image files)
+│   │   ├── SceneArt.tsx        22 illustrated, animated story scenes (inline SVG, no image files)
 │   │   ├── Quiz.tsx            1-minute scam check, before and after
 │   │   ├── HelpCard.tsx        Real UK help: bank / 159, Report Fraud, 7726
 │   │   ├── ShareButton.tsx     Copy a link to a scenario
@@ -101,7 +101,7 @@ shadowcase-ai/
 
 ### Main components explained
 - **Tutorial.** Opens automatically on the first visit. Six steps: what the app does, tapping a clue in a sample message, a practice decision, rewinding it to compare, the two modes, and Easy Mode. Completion is saved in the browser. The **❓ Help** button (or Display → Replay) shows it again.
-- **Story engine (`shared/storyEngine.ts`).** Each story is plain data: scenes with dialogue, clue phrases, and choices that point to the next scene. Text can contain `{details}` (amounts, company names, links) that are filled in from one of three sets per scam, so replays differ. The engine records your history and a snapshot of your notebook before each decision; that snapshot is what makes **Rewind** exact. In total there are 5 scams, 10 playable stories, 78 scenes, 36 endings and 96 possible paths.
+- **Story engine (`shared/storyEngine.ts`).** Each story is plain data: scenes with dialogue, clue phrases, and choices that point to the next scene. Text can contain `{details}` (amounts, company names, links) that are filled in from one of three sets per scam, so replays differ. The engine records your history and a snapshot of your notebook before each decision; that snapshot is what makes **Rewind** exact. In total there are 8 scams, 16 playable stories, 119 scenes, 55 endings and 139 possible paths.
 - **Perspectives.** Each scam has a victim story plus a family, friend or bank story. The helper stories teach the other half of scam protection: how to help someone without shaming them. Tests check that no story lets you play as the scammer.
 - **How the trick works.** For each scam, 5–6 steps of the scammer's script, grouped into stages (hook, build trust, create panic, cut you off, take the money). Each step says what the line is designed to do and how to beat it. It's there to help people recognise the pattern, never to teach it.
 - **Share links.** `#play=parcel:parcel_family` opens a scenario directly. The link contains only the scenario name, nothing personal.

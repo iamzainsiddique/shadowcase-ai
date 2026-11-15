@@ -11,7 +11,7 @@ import { Avatar, InspectorVale } from "../components/Avatar";
 import { SceneArt } from "../components/SceneArt";
 import { HelpCard } from "../components/HelpCard";
 import { ShareButton } from "../components/ShareButton";
-import { useAutoRead, type SpeechItem } from "../speech";
+import { stopSpeaking, useAutoRead, type SpeechItem } from "../speech";
 import { markPlayed, setLastScenario, type PlayRequest } from "../share";
 import { ScenarioPicker, PERSPECTIVE_ICON, PERSPECTIVE_NAME } from "./ScenarioPicker";
 import { TrickBreakdown } from "./TrickBreakdown";
@@ -66,6 +66,8 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
   const [notice, setNotice] = useState("");
 
   const top = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  // Moving to another screen (picker, intro, trick breakdown) stops any reading from the last one.
+  useEffect(() => stopSpeaking(), [screen.kind]);
 
   const open = (r: PlayRequest) => {
     setLastScenario(r.scenarioId);

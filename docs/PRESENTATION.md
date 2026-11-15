@@ -6,6 +6,10 @@
 >
 > **Originality.** All characters, banks, companies, celebrities, numbers and web addresses are invented. Stories, illustrations and code are original; fonts and libraries are open-licensed.
 
+**Track 4.2 AI + Finance · Project 4.2.1 Scam text filter.** This project is a prototype and is not financial advice.
+
+**Model vs baselines (precision and recall for spam, held-out data):** TF-IDF + logistic regression trained on the SMS Spam Collection catches **93.3%** of spam at **95.2%** precision. Labelling everything "not spam" scores 86.6% accuracy but 0% recall, and our keyword rules reach only 22.1% recall. On 24 modern UK messages the old dataset struggles (33% recall), and adding 40 modern examples raises it to 67%. Full details are in `ml/results.md` and the Colab notebook `ml/scam_filter.ipynb`.
+
 ## 1. Project description (concise)
 SHADOWCASE AI is an interactive detective game that teaches people, especially older adults and beginners, to recognise financial scams. It has two modes. The **Story Game** lets you live **8 common scams** (fake family emergency, bank "safe account", parcel text, romance, fake investment, "Hi Mum" new number, fake tax refund, fake police courier) through **different people's eyes**: the person targeted, a family member or friend, or a bank adviser. A **"How the trick works"** walkthrough shows each scammer's script with how to beat every step. It needs no AI. **AI Detective** is an AI-assisted investigation with **AI Rewind** and a **Scam Scanner** that explains its evidence in plain English. An interactive tutorial and an Easy Mode make it approachable for people who have never played a game.
 

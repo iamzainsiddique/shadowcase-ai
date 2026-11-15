@@ -6,6 +6,8 @@ import fs from "node:fs";
 import { ALL_STORY_CLUES, CHARACTERS, DUPLICATE_IDS, ENDINGS, NODES, SCENARIOS, SCENE_ART_IDS, START_NODE, STORIES, fill, resolveEnding, resolveNode } from "../shared/story";
 import { QUIZ_AFTER, QUIZ_BEFORE } from "../shared/quiz";
 import { readPlayHash, surprise } from "../src/share";
+import { MODEL_CHECKS, scoreMessage } from "../src/ml/scamModel";
+import ML_RESULTS from "../ml/results.json";
 import { allPaths, choose, collectClue, cluesSeen, currentEnding, getNode, initialState, nextVariant, rewindTo, scoreStory, storyVars } from "../shared/storyEngine";
 import { ALL_CLUES, CASE_001, scoreCase } from "../shared/case";
 import { TACTICS, TACTIC_LABELS, TACTIC_EXPLAINERS } from "../shared/types";
@@ -343,6 +345,25 @@ test("device with only robotic voices still reads aloud", () => {
 test("device with no voices doesn't crash", () => {
   const c = castVoices([], "male");
   assert.equal(c.arthur.voiceName, undefined);
+});
+
+console.log("\nTrained scam filter (ml/train.py → src/ml/scam-model.json)");
+test("the browser version gives the same probabilities as scikit-learn (5 check messages)", () => {
+  assert.equal(MODEL_CHECKS.length, 5);
+  for (const c of MODEL_CHECKS) assert.ok(Math.abs(scoreMessage(c.text).pSpam - c.p_spam) < 0.001, `${c.text.slice(0, 40)}: ${scoreMessage(c.text).pSpam} vs ${c.p_spam}`);
+});
+test("results: the model beats both baselines on spam recall, and reports precision and recall", () => {
+  const r = ML_RESULTS.results as Record<string, { sms_test: { precision: number; recall: number } }>;
+  const model = r["TF-IDF + logistic regression + 40 modern UK examples (used in the app)"].sms_test;
+  assert.equal(r["Baseline: everything 'not spam'"].sms_test.recall, 0);
+  assert.ok(model.recall > r["Baseline: SHADOWCASE keyword rules"].sms_test.recall);
+  assert.ok(model.precision > 0.9 && model.recall > 0.9, JSON.stringify(model));
+  assert.equal(ML_RESULTS.errors_sms_test.length, 5, "five wrong examples are reported");
+});
+test("the filter explains itself: a scam text lists the words that made it suspicious", () => {
+  const r = scoreMessage("WINNER! You have won a £1000 prize. Call now to claim, text CLAIM to 80888");
+  assert.ok(r.flagged && r.reasons.length > 0, JSON.stringify(r));
+  assert.ok(!scoreMessage("Running 10 minutes late, see you at the cafe").flagged);
 });
 
 console.log("\nDemo analyzer regression (eval set)");

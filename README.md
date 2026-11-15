@@ -18,6 +18,27 @@ New visitors get a short **interactive tutorial**. An **Easy Mode** gives a simp
 
 **🌐 Online demo:** https://iamzainsiddique.github.io/shadowcase-ai/ runs in **demo mode** (no live AI, rule-based and clearly labelled), because a public website can't safely hold an API key. The Story Game is complete online. For live AI, run it locally with a key (below).
 
+
+## Track 4.2.1 Scam text filter: the trained model
+
+*This project is a prototype and is not financial advice.*
+
+- **Training and evaluation:** `ml/train.py`, or the Google Colab notebook `ml/scam_filter.ipynb`. Both use the **SMS Spam Collection** (UCI, CC BY 4.0) with a stratified 80/20 split, and train TF-IDF with **naive Bayes** and **logistic regression**.
+- **Baselines:** "everything is not spam", and the app's keyword rules (read straight from `server/rules.ts`).
+- **Metrics:** precision and recall for spam, plus five wrong examples, in [`ml/results.md`](ml/results.md).
+- **Our addition:** 24 modern UK test messages (`data/eval-messages.json`, never trained on) and 40 different modern training examples (`data/modern-train-messages.json`).
+- **In the app:** the final model is exported to `src/ml/scam-model.json` and runs **in the browser** (`src/ml/scamModel.ts`), so it works on the public site with no server. It shows the words that made a message look like a scam. Tests check that the browser version matches scikit-learn exactly.
+- **Re-run:** `python3 -m venv ml/.venv && ml/.venv/bin/pip install scikit-learn pandas && npm run ml`
+
+| Method | SMS precision | SMS recall | Modern UK recall |
+|---|---|---|---|
+| Baseline: everything "not spam" | 0% | 0% | 0% |
+| Baseline: keyword rules | 75.0% | 22.1% | 100%* |
+| TF-IDF + logistic regression | 97.2% | 93.3% | 33.3% |
+| + 40 modern UK examples (in the app) | 95.2% | 93.3% | 66.7% |
+
+\*The rules were written while looking at the modern test set, so that score is optimistic.
+
 ---
 
 ## Run it (beginner steps)
@@ -49,6 +70,7 @@ The key stays on the server and is never sent to the browser.
 | `npm run eval` | Runs the 24-message test set and writes `eval/results-<mode>.md` |
 | `npm run eval -- --rules` | Same, but forces the demo rule-based analyzer |
 | `npm run build` | Type-checks and builds the production site |
+| `npm run ml` | Retrains the scam text filter and rewrites `ml/results.md` (needs the Python setup above) |
 
 ---
 

@@ -8,3 +8,7 @@ dist
 # The hackathon briefs are kept private (they are the organisers' text, not ours).
 docs/BRIEF.md
 docs/IMPROVEMENT_BRIEF.md
+# Python environment and the downloaded dataset (the scripts download it from UCI)
+ml/.venv
+ml/data/download
+__pycache__

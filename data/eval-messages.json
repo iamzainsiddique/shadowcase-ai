@@ -1,6 +1,6 @@
 [
   { "id": 1, "label": "suspicious", "text": "NORTHBRIDGE ALERT: Your account has been suspended. Verify within 2 hours at northbridge-verify-login.co or lose access permanently." },
-  { "id": 2, "label": "suspicious", "text": "Royal Parcel Service: your package is on hold due to an unpaid £1.99 fee. Pay within 24 hours at rps-delivery-update.com or it will be returned." },
+  { "id": 2, "label": "suspicious", "text": "Rapid Parcel Service: your package is on hold due to an unpaid £1.99 fee. Pay within 24 hours at rps-delivery-update.com or it will be returned." },
   { "id": 3, "label": "suspicious", "text": "Mum it's me, I dropped my phone in the sink, this is my new number. Can you help me pay a bill urgently? Don't tell dad, I'll explain later x" },
   { "id": 4, "label": "suspicious", "text": "This is the Tax Office. You owe unpaid tax and a warrant has been issued for your arrest. Pay today using gift cards to avoid legal action." },
   { "id": 5, "label": "suspicious", "text": "Congratulations! You've won a £500 shopping voucher. Claim your prize now by entering your card details at prize-claim-centre.net." },
@@ -15,7 +15,7 @@
   { "id": 14, "label": "legitimate", "text": "Your GP appointment is confirmed for Thursday 14 March at 10:20 with Dr Patel. Reply CANCEL if you can no longer attend." },
   { "id": 15, "label": "legitimate", "text": "Your verification code is 482913. Never share this code with anyone, including Northbridge staff." },
   { "id": 16, "label": "legitimate", "text": "Hi Gran, just landed safely! Will call you tonight after dinner. Love you x" },
-  { "id": 17, "label": "legitimate", "text": "Royal Parcel Service: Your parcel was delivered at 14:32 and left in your porch as requested. No action needed." },
+  { "id": 17, "label": "legitimate", "text": "Rapid Parcel Service: Your parcel was delivered at 14:32 and left in your porch as requested. No action needed." },
   { "id": 18, "label": "legitimate", "text": "Reminder from Greenfield Library: the book 'Gardening Through the Seasons' is due back on Friday. You can renew it at the front desk." },
   { "id": 19, "label": "legitimate", "text": "Northbridge: You paid £42.17 to Fresh Foods Market on 03 Mar. If you don't recognise this, call the number on the back of your card." },
   { "id": 20, "label": "legitimate", "text": "Thanks for your order! Your new kettle will arrive between Tuesday and Thursday. Track it any time in your account on our website." },

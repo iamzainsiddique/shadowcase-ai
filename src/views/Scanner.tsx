@@ -5,6 +5,8 @@ import { Highlight } from "../components/Highlight";
 import { SpeakButton } from "../components/SpeakButton";
 import { ErrorBox, Loading, Tip } from "../components/ui";
 import { useAutoRead } from "../speech";
+import { scoreMessage } from "../ml/scamModel";
+import results from "../../ml/results.json";
 
 const EXAMPLES = [
   "Rapid Parcel Service: your package is on hold due to an unpaid £1.99 fee. Pay within 24 hours at rps-delivery-update.com or it will be returned.",
@@ -172,6 +174,8 @@ export function Scanner() {
                   <p className="text-sm text-slate-400">This is an assessment, not a guarantee. A message with no warning signs can still be a scam.</p>
                 </div>
 
+                <ModelCard message={message} />
+
                 {result.indicators.length > 0 && (
                   <div className="space-y-3">
                     <h2 className="h2">Evidence</h2>
@@ -200,6 +204,47 @@ export function Scanner() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+/** The trained machine-learning filter (TF-IDF + logistic regression), explained in plain language. */
+function ModelCard({ message }: { message: string }) {
+  const r = scoreMessage(message);
+  const pct = Math.round(r.pSpam * 100);
+  const sms = results.results["TF-IDF + logistic regression + 40 modern UK examples (used in the app)"].sms_test;
+  return (
+    <div className="card space-y-3 border-electric-400/40 p-5">
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="eyebrow">🧠 Trained scam filter (machine learning)</p>
+        <span className={`chip border text-base ${r.flagged ? "border-danger/50 bg-danger/15 text-danger" : "border-safe/50 bg-safe/15 text-safe"}`}>
+          {r.flagged ? "Flagged: think twice" : "No strong scam signals"}
+        </span>
+      </div>
+      <div>
+        <div className="flex justify-between text-sm">
+          <span>How scam-like this message looks to the model</span>
+          <span className="font-semibold">{pct}%</span>
+        </div>
+        <div className="h-3 rounded-full bg-ink-700" role="progressbar" aria-label="Scam likelihood" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+          <div className={`h-3 rounded-full ${r.flagged ? "bg-danger" : "bg-safe"}`} style={{ width: `${pct}%` }} />
+        </div>
+      </div>
+      {r.reasons.length > 0 ? (
+        <div>
+          <p className="font-semibold">Words that made it look like a scam:</p>
+          <div className="mt-1 flex flex-wrap gap-2">
+            {r.reasons.map((x) => (
+              <span key={x.term} className="chip border border-danger/40 text-danger">“{x.term}”</span>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p className="text-slate-300">No words that the model links strongly with scams.</p>
+      )}
+      <p className="text-sm text-slate-400">
+        Runs in your browser; nothing is sent anywhere. Trained on the SMS Spam Collection (5,574 real texts) plus 40 modern UK examples. On held-out test texts it caught {Math.round(sms.recall * 100)}% of spam, and {Math.round(sms.precision * 100)}% of what it flagged really was spam. It can still be wrong, and it is weaker on new kinds of scam. Prototype only, not financial advice.
+      </p>
     </div>
   );
 }

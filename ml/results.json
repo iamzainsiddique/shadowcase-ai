@@ -1,0 +1,215 @@
+{
+  "dataset": {
+    "messages": 5574,
+    "spam": 747,
+    "train": 4459,
+    "test": 1115,
+    "seed": 42,
+    "modern_uk_test": 24,
+    "modern_uk_train": 40
+  },
+  "results": {
+    "Baseline: everything 'not spam'": {
+      "sms_test": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.8663677130044843,
+        "tp": 0,
+        "fp": 0,
+        "fn": 149,
+        "tn": 966
+      },
+      "modern_uk_test": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "tp": 0,
+        "fp": 0,
+        "fn": 12,
+        "tn": 12
+      }
+    },
+    "Baseline: SHADOWCASE keyword rules": {
+      "sms_test": {
+        "precision": 0.75,
+        "recall": 0.2214765100671141,
+        "f1": 0.34196891191709844,
+        "accuracy": 0.8860986547085202,
+        "tp": 33,
+        "fp": 11,
+        "fn": 116,
+        "tn": 955
+      },
+      "modern_uk_test": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1": 0.96,
+        "accuracy": 0.9583333333333334,
+        "tp": 12,
+        "fp": 1,
+        "fn": 0,
+        "tn": 11
+      }
+    },
+    "TF-IDF + naive Bayes": {
+      "sms_test": {
+        "precision": 1.0,
+        "recall": 0.8187919463087249,
+        "f1": 0.9003690036900369,
+        "accuracy": 0.9757847533632287,
+        "tp": 122,
+        "fp": 0,
+        "fn": 27,
+        "tn": 966
+      },
+      "modern_uk_test": {
+        "precision": 1.0,
+        "recall": 0.16666666666666666,
+        "f1": 0.2857142857142857,
+        "accuracy": 0.5833333333333334,
+        "tp": 2,
+        "fp": 0,
+        "fn": 10,
+        "tn": 12
+      }
+    },
+    "TF-IDF + logistic regression": {
+      "sms_test": {
+        "precision": 0.972027972027972,
+        "recall": 0.9328859060402684,
+        "f1": 0.952054794520548,
+        "accuracy": 0.9874439461883409,
+        "tp": 139,
+        "fp": 4,
+        "fn": 10,
+        "tn": 962
+      },
+      "modern_uk_test": {
+        "precision": 0.8,
+        "recall": 0.3333333333333333,
+        "f1": 0.47058823529411764,
+        "accuracy": 0.625,
+        "tp": 4,
+        "fp": 1,
+        "fn": 8,
+        "tn": 11
+      }
+    },
+    "TF-IDF + logistic regression + 40 modern UK examples (used in the app)": {
+      "sms_test": {
+        "precision": 0.952054794520548,
+        "recall": 0.9328859060402684,
+        "f1": 0.9423728813559322,
+        "accuracy": 0.9847533632286996,
+        "tp": 139,
+        "fp": 7,
+        "fn": 10,
+        "tn": 959
+      },
+      "modern_uk_test": {
+        "precision": 0.8,
+        "recall": 0.6666666666666666,
+        "f1": 0.7272727272727273,
+        "accuracy": 0.75,
+        "tp": 8,
+        "fp": 2,
+        "fn": 4,
+        "tn": 10
+      }
+    },
+    "Model + keyword rules together (the app's scanner)": {
+      "sms_test": {
+        "precision": 0.8853503184713376,
+        "recall": 0.9328859060402684,
+        "f1": 0.9084967320261438,
+        "accuracy": 0.9748878923766816,
+        "tp": 139,
+        "fp": 18,
+        "fn": 10,
+        "tn": 948
+      },
+      "modern_uk_test": {
+        "precision": 0.8571428571428571,
+        "recall": 1.0,
+        "f1": 0.9230769230769231,
+        "accuracy": 0.9166666666666666,
+        "tp": 12,
+        "fp": 2,
+        "fn": 0,
+        "tn": 10
+      }
+    }
+  },
+  "errors_sms_test": [
+    {
+      "text": "Hi kindly give us back our documents which we submitted for loan from STAPATI",
+      "true": "not spam",
+      "predicted": "spam",
+      "p_spam": 0.527
+    },
+    {
+      "text": "Hi ya babe x u 4goten bout me?' scammers getting smart..Though this is a regular vodafone no, if you respond you get further prem rate msg/subscription. Other nos used also. Beware!",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.045
+    },
+    {
+      "text": "Ok... Ur typical reply...",
+      "true": "not spam",
+      "predicted": "spam",
+      "p_spam": 0.673
+    },
+    {
+      "text": "Bought one ringtone and now getting texts costing 3 pound offering more tones etc",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.396
+    },
+    {
+      "text": "ROMCAPspam Everyone around should be responding well to your presence since you are so warm and outgoing. You are bringing in a real breath of sunshine.",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.107
+    }
+  ],
+  "errors_modern_uk_test": [
+    {
+      "text": "Mum it's me, I dropped my phone in the sink, this is my new number. Can you help me pay a bill urgently? Don't tell dad, I'll explain later x",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.181
+    },
+    {
+      "text": "Hi, I'm an investment manager. My clients double their savings in 3 months with our crypto platform. Guaranteed returns, risk-free. Shall I set you up?",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.188
+    },
+    {
+      "text": "I know we only met online a few weeks ago but I feel so close to you. I'm stuck abroad and need \u00a3900 for my flight home. Please keep this between us.",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.046
+    },
+    {
+      "text": "Hey, it's Sam from the church group. Could you do me a favour and pick up four \u00a3100 Steam cards for my niece's birthday? I'll pay you back Sunday.",
+      "true": "spam",
+      "predicted": "not spam",
+      "p_spam": 0.082
+    },
+    {
+      "text": "Thanks for your order! Your new kettle will arrive between Tuesday and Thursday. Track it any time in your account on our website.",
+      "true": "not spam",
+      "predicted": "spam",
+      "p_spam": 0.606
+    },
+    {
+      "text": "Northbridge Bank: Urgent security reminder \u2014 we will never ask you to move money to a safe account. If anyone does, hang up and call us on the number on your card.",
+      "true": "not spam",
+      "predicted": "spam",
+      "p_spam": 0.54
+    }
+  ]
+}

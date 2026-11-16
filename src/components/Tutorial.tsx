@@ -7,6 +7,7 @@ import { Progress } from "./ui";
 import { SpeakButton } from "./SpeakButton";
 import { VoiceChoice } from "./VoiceChoice";
 import { AudienceChoice } from "./AudienceChoice";
+import { DifficultyChoice } from "./DifficultyChoice";
 import { speechAvailable, useAutoRead, useSpeech } from "../speech";
 
 // The tutorial opens every time the app is opened, unless the player ticks
@@ -215,6 +216,11 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
                 <p className="font-display text-xl font-bold">🤖 AI Detective</p>
                 <p>Investigate with an AI partner, or practise with the message scanner (an educational demo).</p>
               </div>
+            </div>
+            <div className="rounded-xl border border-ink-600 bg-ink-900 p-4">
+              <p className="font-semibold">🎯 Pick a difficulty for the Story Game</p>
+              <div className="mt-2"><DifficultyChoice /></div>
+              <p className="mt-2 text-base text-slate-300">You can change it any time: in <strong>Aa Display</strong>, at the top of the Story Game's scam list, or by tapping the difficulty badge while you play.</p>
             </div>
             <p className="text-slate-300">The <strong>🏠 Home</strong> button always brings you back to the start.</p>
           </div>

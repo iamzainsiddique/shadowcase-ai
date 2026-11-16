@@ -94,7 +94,7 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
   const story = getStory(state.storyId);
   const vars = storyVars(state);
   const node = resolveNode(getNode(state.nodeId), vars);
-  const { settings } = useSettings();
+  const { settings, update } = useSettings();
   const difficulty = settings.difficulty ?? "medium";
   // Hard: answers appear in a shuffled (but stable) order, so the safe answer isn't always in the same place.
   const hash = (t: string) => [...t].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7);
@@ -170,7 +170,14 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
             <h1 className="h2">{scenario.scamType}</h1>
           </div>
           <div className="flex flex-wrap gap-2 text-sm">
-            <span className="chip border border-ink-600 text-slate-300">{DIFFICULTY[difficulty].icon} {DIFFICULTY[difficulty].label}</span>
+            <button
+              className="chip border border-electric-400/60 text-slate-200 hover:border-electric-400"
+              onClick={() => update({ difficulty: difficulty === "easy" ? "medium" : difficulty === "medium" ? "hard" : "easy" })}
+              aria-label={`Difficulty: ${DIFFICULTY[difficulty].label}. Tap to change.`}
+              title="Tap to change difficulty"
+            >
+              {DIFFICULTY[difficulty].icon} {DIFFICULTY[difficulty].label} · change
+            </button>
             <span className="chip border border-ink-600 text-slate-300">Decisions made: {state.history.length}</span>
             <span className="chip border border-ink-600 text-slate-300">Endings found: {state.endingsFound.length}/{totalEndings}</span>
             <button className="chip border border-ink-600 text-slate-300 hover:border-electric-400" onClick={() => setScreen({ kind: "pick" })}>← All scams</button>

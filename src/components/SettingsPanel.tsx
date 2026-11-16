@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useSettings, type TextSize } from "../settings";
 import { setVoicePrefs, speak, speechAvailable } from "../speech";
 import { VoiceChoice } from "./VoiceChoice";
+import { DifficultyChoice } from "./DifficultyChoice";
 
 function Toggle({ label, description, checked, onChange, disabled }: { label: string; description: string; checked: boolean; onChange: (v: boolean) => void; disabled?: boolean }) {
   return (
@@ -34,6 +35,11 @@ export function SettingsPanel({ onClose, onTutorial }: { onClose: () => void; on
           <h2 id="settings-title" className="h2">Display & comfort</h2>
           <button className="btn-ghost !min-h-[44px] !px-3" onClick={onClose} aria-label="Close settings">✕</button>
         </div>
+
+        <fieldset className="space-y-2 rounded-xl border border-ink-600 bg-ink-900 p-4">
+          <legend className="px-1 font-semibold">🎯 Story Game difficulty</legend>
+          <DifficultyChoice />
+        </fieldset>
 
         <Toggle
           label="⭐ Easy View"

@@ -53,8 +53,8 @@ export function Quiz({ phase, onClose }: { phase: "before" | "after"; onClose: (
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 sm:items-center">
-      <div role="dialog" aria-modal="true" aria-labelledby="quiz-title" className="card w-full max-w-xl space-y-5 p-6 animate-rise">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4">
+      <div role="dialog" aria-modal="true" aria-labelledby="quiz-title" className="card my-auto w-full max-w-xl space-y-5 p-6 animate-rise">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="eyebrow">{phase === "before" ? "Before you play" : "After playing"}</p>

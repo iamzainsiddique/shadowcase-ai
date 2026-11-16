@@ -28,8 +28,8 @@ export function SettingsPanel({ onClose, onTutorial }: { onClose: () => void; on
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 sm:items-center" onClick={onClose}>
-      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="settings-title" className="card w-full max-w-lg space-y-4 p-6 focus:outline-none" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4" onClick={onClose}>
+      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="settings-title" className="my-auto card w-full max-w-lg space-y-4 p-6 focus:outline-none" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">
           <h2 id="settings-title" className="h2">Display & comfort</h2>
           <button className="btn-ghost !min-h-[44px] !px-3" onClick={onClose} aria-label="Close settings">✕</button>

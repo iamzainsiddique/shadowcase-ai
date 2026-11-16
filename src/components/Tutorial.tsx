@@ -100,8 +100,8 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
   const other = PRACTICE.find((p) => p.id !== choice);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 sm:items-center">
-      <div role="dialog" aria-modal="true" aria-labelledby="tut-title" className={`card reading-target w-full max-w-2xl space-y-5 p-6 animate-rise ${reading ? "is-reading" : ""}`}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4">
+      <div role="dialog" aria-modal="true" aria-labelledby="tut-title" className={`card reading-target my-auto w-full max-w-2xl space-y-5 p-6 animate-rise ${reading ? "is-reading" : ""}`}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
             <Progress current={step + 1} total={STEPS.length} label="Tutorial step" />

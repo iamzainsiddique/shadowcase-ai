@@ -9,23 +9,19 @@ import { VoiceChoice } from "./VoiceChoice";
 import { AudienceChoice } from "./AudienceChoice";
 import { speechAvailable, useAutoRead, useSpeech } from "../speech";
 
-// The tutorial opens every time the app is opened (once per visit), unless the player ticks
+// The tutorial opens every time the app is opened, unless the player ticks
 // "Don't show this when I open the app". It can always be replayed with ❓ Help.
 const HIDE_KEY = "shadowcase.tutorialHideAtStart";
-const SEEN_KEY = "shadowcase.tutorialSeenThisVisit";
 
+/** The tutorial opens every time the page is opened or reloaded, unless "Don't show" is ticked. */
 export function tutorialDone(): boolean {
   try {
-    return localStorage.getItem(HIDE_KEY) === "1" || sessionStorage.getItem(SEEN_KEY) === "1";
+    return localStorage.getItem(HIDE_KEY) === "1";
   } catch {
     return false;
   }
 }
-function markDone() {
-  try {
-    sessionStorage.setItem(SEEN_KEY, "1");
-  } catch {}
-}
+function markDone() {}
 function hiddenAtStart() {
   try {
     return localStorage.getItem(HIDE_KEY) === "1";

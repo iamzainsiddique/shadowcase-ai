@@ -65,7 +65,7 @@ const STEP_READ: Record<StepId, string> = {
   decide: "Step 2. Make a decision. Each choice can lead to different consequences. What would you do with that message? Option 1: Pay the £2 fee to get the prize. Option 2: Delete the message and don't reply.",
   rewind: "Step 3. Rewind and compare. Rewind lets you go back to a decision and pick something else, then compare what happens.",
   modes: "Step 4. Two ways to play. The Story Game lets you live eight different scams, as the person targeted or as their family or bank, and discover different endings. No AI needed. AI Detective lets you investigate with an AI partner, or practise with the message scanner. Switch any time with the buttons at the top. The Home button always brings you back to the start.",
-  comfort: "Step 5. Make it comfortable. You can turn on Easy Mode for bigger text and simpler screens, and Read aloud automatically, so every new message is read out to you. If it's off, press the speaker button on any message to hear it. You can also choose a female or male voice for the assistant.",
+  comfort: "Step 5. Make it comfortable. You can turn on Easy View for bigger text and simpler screens, and Read aloud automatically, so every new message is read out to you. If it's off, press the speaker button on any message to hear it. You can also choose a female or male voice for the assistant.",
 };
 
 export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => void; onStory: () => void; onDetective: () => void }) {
@@ -225,10 +225,10 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
             <p>Choose what makes SHADOWCASE comfortable for you.</p>
             <label className="flex min-h-[56px] cursor-pointer items-center justify-between gap-4 rounded-xl border border-ink-600 bg-ink-900 p-4">
               <span>
-                <span className="block font-semibold">⭐ Easy Mode</span>
+                <span className="block font-semibold">⭐ Easy View</span>
                 <span className="block text-sm text-slate-300">Largest text, strong colours, no animations, extra tips.</span>
               </span>
-              <input type="checkbox" role="switch" aria-label="Easy Mode" className="h-6 w-6 shrink-0 accent-electric-500" checked={settings.easyMode} onChange={(e) => update({ easyMode: e.target.checked })} />
+              <input type="checkbox" role="switch" aria-label="Easy View" className="h-6 w-6 shrink-0 accent-electric-500" checked={settings.easyMode} onChange={(e) => update({ easyMode: e.target.checked })} />
             </label>
             {speechAvailable() && (
               <label className="flex min-h-[56px] cursor-pointer items-center justify-between gap-4 rounded-xl border border-ink-600 bg-ink-900 p-4">

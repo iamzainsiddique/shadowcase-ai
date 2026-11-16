@@ -63,7 +63,7 @@ export function Home({ onStory, onSurprise, onQuiz, onDetective, onTutorial }: P
       <section className="card grid gap-4 p-6 sm:grid-cols-3">
         <div>
           <p className="font-display text-lg font-bold">Built for everyone</p>
-          <p className="text-slate-300">Turn on <strong>Easy Mode</strong> in “Display” at the top for bigger text and buttons, stronger colours and no animations.</p>
+          <p className="text-slate-300">Turn on <strong>Easy View</strong> in “Display” at the top for bigger text and buttons, stronger colours and no animations.</p>
         </div>
         <div>
           <p className="font-display text-lg font-bold">Honest about AI</p>

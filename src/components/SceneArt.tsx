@@ -1,5 +1,5 @@
 // Illustrated, gently animated scenes for the Story Game (inline SVG, no image files needed).
-// Animations use the .anim-* classes in index.css and switch off with Reduce Motion / Easy Mode.
+// Animations use the .anim-* classes in index.css and switch off with Reduce Motion / Easy View.
 import type { SceneArtId } from "../../shared/story";
 
 const W = 800;

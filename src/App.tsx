@@ -90,7 +90,7 @@ export default function App() {
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <button className="btn-ghost !min-h-[44px] !px-3" onClick={() => setShowSettings(true)} aria-haspopup="dialog">
               Aa <span>Display</span>
-              {settings.easyMode && <span className="chip !px-2 !py-0 bg-electric-500 text-ink-950">Easy</span>}
+              {settings.easyMode && <span className="chip !px-2 !py-0 bg-electric-500 text-ink-950">Easy view</span>}
             </button>
             <span className="relative">
               <button

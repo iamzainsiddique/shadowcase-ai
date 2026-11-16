@@ -11,7 +11,7 @@
 **Model vs baselines (precision and recall for spam, held-out data):** TF-IDF + logistic regression trained on the SMS Spam Collection catches **93.3%** of spam at **95.2%** precision. Labelling everything "not spam" scores 86.6% accuracy but 0% recall, and our keyword rules reach only 22.1% recall. On 24 modern UK messages the old dataset struggles (33% recall), and adding 40 modern examples raises it to 67%. Full details are in `ml/results.md` and the Colab notebook `ml/scam_filter.ipynb`.
 
 ## 1. Project description (concise)
-SHADOWCASE AI is an interactive detective game that teaches people, especially older adults and beginners, to recognise financial scams. It has two modes. The **Story Game** lets you live **8 common scams** (fake family emergency, bank "safe account", parcel text, romance, fake investment, "Hi Mum" new number, fake tax refund, fake police courier) through **different people's eyes**: the person targeted, a family member or friend, or a bank adviser. A **"How the trick works"** walkthrough shows each scammer's script with how to beat every step. It needs no AI. **AI Detective** is an AI-assisted investigation with **AI Rewind** and a **Scam Scanner** that explains its evidence in plain English. An interactive tutorial and an Easy Mode make it approachable for people who have never played a game.
+SHADOWCASE AI is an interactive detective game that teaches people, especially older adults and beginners, to recognise financial scams. It has two modes. The **Story Game** lets you live **8 common scams** (fake family emergency, bank "safe account", parcel text, romance, fake investment, "Hi Mum" new number, fake tax refund, fake police courier) through **different people's eyes**: the person targeted, a family member or friend, or a bank adviser. A **"How the trick works"** walkthrough shows each scammer's script with how to beat every step. It needs no AI. **AI Detective** is an AI-assisted investigation with **AI Rewind** and a **Scam Scanner** that explains its evidence in plain English. An interactive tutorial and an Easy View make it approachable for people who have never played a game.
 
 ## 2. Problem statement
 Financial scams increasingly target people through texts, calls and emails that pretend to come from banks, delivery companies or family members. Most protection tools just say "this looks suspicious". They don't build the instinct people need when a scammer is on the phone applying pressure. Warnings are easy to read and easy to forget.
@@ -54,7 +54,7 @@ All AI output uses a strict JSON schema so the UI can render it reliably. System
 - **The story engine:** choices, clue collection, rewind restoring the notebook, and scoring, including that a flawless run isn't penalised and that rewinding a mistake earns the learning points.
 - **Everything else:** voice casting on Mac, Windows, Chrome and Edge voice lists; share links rejecting bad input; the quiz sets; Case 001 data; and the analyzer regression below.
 
-The demo analyzer gained two rules (percentage-a-week returns, "only N places left") after it missed a fake-investment example; the 24-message evaluation was re-run afterwards and is unchanged at 23/24. Every story was also played to an ending in the browser (first and last option each time), plus the share links, "How the trick works", the quiz and Easy Mode.
+The demo analyzer gained two rules (percentage-a-week returns, "only N places left") after it missed a fake-investment example; the 24-message evaluation was re-run afterwards and is unchanged at 23/24. Every story was also played to an ending in the browser (first and last option each time), plus the share links, "How the trick works", the quiz and Easy View.
 
 Dataset: 24 fictional, hand-labelled messages (12 scam, 12 legitimate) in `data/eval-messages.json`. Run with `npm run eval`.
 
@@ -93,7 +93,7 @@ Dataset: 24 fictional, hand-labelled messages (12 scam, 12 legitimate) in `data/
 | 0:45–1:05 | On the ending, press **👪 Play as Helen**: the same scam from the daughter's side. One choice ("How could you fall for this?") shows why shaming makes it worse. Point out the **real help card** (159, 0300 123 2040, 7726). |
 | 1:05–1:20 | Open **🔍 How the trick works** for The Safe Account: the scammer's script, each line's purpose, and how to beat it. Mention that details change every playthrough and "🎲 Surprise me". |
 | 1:20–1:45 | Switch to **🤖 AI Detective** (point to the honest Live AI / Demo badge). Open the **Scam Scanner** with Example 2 ("Mum it's me…") to show highlighted evidence. |
-| 1:45–2:00 | Show the **🧠 1-minute scam check** result screen (before → after), then **Easy Mode** and read-aloud with highlighting. Close with "Think like a detective. Expose the scam. Change the outcome." |
+| 1:45–2:00 | Show the **🧠 1-minute scam check** result screen (before → after), then **Easy View** and read-aloud with highlighting. Close with "Think like a detective. Expose the scam. Change the outcome." |
 
 **Backup plan:** the Story Game needs no internet or API. If the API fails, remove the key and restart: AI Detective then runs in clearly labelled demo mode.
 

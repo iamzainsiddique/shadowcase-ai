@@ -46,7 +46,7 @@ html[data-contrast="high"] .text-slate-400 { color: #f1f5f9 !important; }
 html[data-contrast="high"] .btn-ghost { border-color: #cbd5e1; background-color: #111a2e; }
 html[data-contrast="high"] *:focus-visible { outline: 3px solid #ffd166 !important; outline-offset: 2px; }
 
-/* Easy Mode: bigger buttons and touch targets, hide purely decorative elements. */
+/* Easy View: bigger buttons and touch targets, hide purely decorative elements. */
 html[data-easy="true"] .btn { min-height: 60px; font-size: 1.1rem; padding-left: 1.5rem; padding-right: 1.5rem; }
 html[data-easy="true"] .decorative { display: none !important; }
 

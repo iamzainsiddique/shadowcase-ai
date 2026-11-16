@@ -1,5 +1,5 @@
 // Display & accessibility settings, shared through React context and remembered in this browser.
-// Easy Mode is a one-tap bundle: biggest text, high contrast, no animation, extra plain-language hints.
+// Easy View is a one-tap bundle: biggest text, high contrast, no animation, extra plain-language hints.
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { setVoicePrefs } from "./speech";
 import type { Audience } from "../shared/audience";
@@ -19,11 +19,15 @@ export interface Settings {
   characterVoices: boolean;
   /** Also use older, robotic-sounding voices so more characters sound different. Off = natural voices only. */
   voiceVariety: boolean;
-  /** "Who's playing?": tailors recommended scams (and turns on Easy Mode for older adults). */
+  /** "Who's playing?": tailors recommended scams (and turns on Easy View for older adults). */
   audience: Audience | null;
+  /** Story Game difficulty (separate from Easy View, which is about reading comfort). */
+  difficulty: Difficulty;
 }
 
-const DEFAULTS: Settings = { textSize: "normal", easyMode: false, highContrast: false, reduceMotion: false, autoRead: false, assistantVoice: "female", characterVoices: true, voiceVariety: false, audience: null };
+export type Difficulty = "easy" | "medium" | "hard";
+
+const DEFAULTS: Settings = { textSize: "normal", easyMode: false, highContrast: false, reduceMotion: false, autoRead: false, assistantVoice: "female", characterVoices: true, voiceVariety: false, audience: null, difficulty: "medium" };
 const KEY = "shadowcase.settings";
 
 function load(): Settings {
@@ -38,7 +42,7 @@ function load(): Settings {
 interface Ctx {
   settings: Settings;
   update: (patch: Partial<Settings>) => void;
-  /** What is actually applied (Easy Mode switches the other options on). */
+  /** What is actually applied (Easy View switches the other options on). */
   effective: Settings;
 }
 

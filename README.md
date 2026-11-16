@@ -10,7 +10,7 @@ An interactive financial-scam awareness game for beginners and older adults, wit
   - You talk to characters, collect clues, make decisions that change the story, and rewind. **No AI or API key needed.**
 - **🤖 AI Detective:** an AI-assisted investigation (Case 001, "The Frozen Account") with an AI partner, AI Rewind comparisons, personalised lessons, and a **Scam Scanner** for real messages.
 
-New visitors get a short **interactive tutorial**. An **Easy Mode** gives a simpler, larger, high-contrast interface. A **🧠 1-minute scam check** before and after playing shows how much you've improved, and every ending has a **real help card** with UK next steps.
+New visitors get a short **interactive tutorial**. An **Easy View** gives a simpler, larger, high-contrast interface. A **🧠 1-minute scam check** before and after playing shows how much you've improved, and every ending has a **real help card** with UK next steps.
 
 > ⚠️ **Educational demonstration only.** SHADOWCASE AI is a learning prototype. It is not intended for real-life situations and does not provide financial, legal or security advice. It cannot predict the future, guarantee fraud detection, or prevent every scam. If something is happening to you for real, contact your bank (number on your card) and official services. In the UK: 159, Report Fraud on 0300 123 2040, Police Scotland on 101, or forward scam texts to 7726.
 >
@@ -92,7 +92,7 @@ shadowcase-ai/
 │   └── rules.ts            Demo-mode keyword analyzer (used only when no key is set)
 ├── src/
 │   ├── App.tsx             Header (Home, mode switch, Display, Help), keeps both modes' progress
-│   ├── settings.tsx        Text size, Easy Mode, high contrast, reduce motion, auto read-aloud (saved on this device)
+│   ├── settings.tsx        Text size, Easy View, high contrast, reduce motion, auto read-aloud (saved on this device)
 │   ├── speech.ts           Read-aloud helpers: speak (per-character voices), stop, auto-read hook
 │   ├── voices.ts           Voice casting: picks an age/gender-appropriate voice for each character
 │   ├── components/
@@ -104,7 +104,7 @@ shadowcase-ai/
 │   │   ├── HelpCard.tsx        Real UK help: bank / 159, Report Fraud, 7726
 │   │   ├── ShareButton.tsx     Copy a link to a scenario
 │   │   ├── Avatar.tsx          Illustrated character portraits + Inspector Vale
-│   │   ├── ui.tsx              Tooltip, Easy Mode hints, loading, error, progress bar
+│   │   ├── ui.tsx              Tooltip, Easy View hints, loading, error, progress bar
 │   │   └── ModeBadge, SpeakButton, Highlight
 │   └── views/
 │       ├── Home.tsx            Mode selection screen
@@ -122,14 +122,14 @@ shadowcase-ai/
 ```
 
 ### Main components explained
-- **Tutorial.** Opens automatically on the first visit. Six steps: what the app does, tapping a clue in a sample message, a practice decision, rewinding it to compare, the two modes, and Easy Mode. Completion is saved in the browser. The **❓ Help** button (or Display → Replay) shows it again.
+- **Tutorial.** Opens automatically on the first visit. Six steps: what the app does, tapping a clue in a sample message, a practice decision, rewinding it to compare, the two modes, and Easy View. Completion is saved in the browser. The **❓ Help** button (or Display → Replay) shows it again.
 - **Story engine (`shared/storyEngine.ts`).** Each story is plain data: scenes with dialogue, clue phrases, and choices that point to the next scene. Text can contain `{details}` (amounts, company names, links) that are filled in from one of three sets per scam, so replays differ. The engine records your history and a snapshot of your notebook before each decision; that snapshot is what makes **Rewind** exact. In total there are 8 scams, 16 playable stories, 119 scenes, 55 endings and 139 possible paths.
 - **Perspectives.** Each scam has a victim story plus a family, friend or bank story. The helper stories teach the other half of scam protection: how to help someone without shaming them. Tests check that no story lets you play as the scammer.
 - **How the trick works.** For each scam, 5–6 steps of the scammer's script, grouped into stages (hook, build trust, create panic, cut you off, take the money). Each step says what the line is designed to do and how to beat it. It's there to help people recognise the pattern, never to teach it.
 - **Share links.** `#play=parcel:parcel_family` opens a scenario directly. The link contains only the scenario name, nothing personal.
 - **1-minute scam check.** 5 "scam or safe?" messages before playing and 5 different ones after, with your before → after score. It's saved only in the browser, and the app labels it a self-check, not a scientific test.
 - **Real help card.** Real UK services, checked November 2026: your bank on the number on your card, or 159; Report Fraud (formerly Action Fraud) on 0300 123 2040 / reportfraud.police.uk; Police Scotland 101; and 7726 for scam texts. Everything inside the stories is fictional.
-- **Illustrations & animation.** Every story scene has its own drawn, gently animated illustration: a ringing phone, a ticking clock, rain on the window, gift cards drifting away. Scenes fade in, dialogue appears line by line, and characters' mouths move when they speak. Scammers are drawn as shadowy "?" silhouettes because you never really know who's calling. All animation switches off with Reduce Motion or Easy Mode.
+- **Illustrations & animation.** Every story scene has its own drawn, gently animated illustration: a ringing phone, a ticking clock, rain on the window, gift cards drifting away. Scenes fade in, dialogue appears line by line, and characters' mouths move when they speak. Scammers are drawn as shadowy "?" silhouettes because you never really know who's calling. All animation switches off with Reduce Motion or Easy View.
 - **Read aloud automatically.** This is offered in the tutorial and in "Aa Display". When it's on, every new tutorial step, story scene (including the answer options), Inspector Vale explanation, Case 001 decision and scan result is read out as soon as it appears. When it's off, people press the 🔊 button on any message. Hidden screens never read.
 - **Follow along while it reads.** Whatever is being read right now is highlighted with a glowing outline and a "🔊 Reading now" tag, and scrolled into view. Each story scene has its own controls: **▶ Read this scene aloud**, **⏸ Pause / ▶ Resume**, **⏹ Stop**, **⏮ Start again**, plus "Now reading: Arthur" so you know who is speaking. Floating Pause and Stop buttons appear anywhere in the app while something is being read.
 - **Voices.** In the Story Game each character has a voice that fits their age and gender. Arthur, 78, sounds older and speaks more slowly. Jamie, the grandson, has a child's voice. The caller pretending to be him sounds young too, but different and hurried. Inspector Vale is calm. Everything else (tutorial, AI Detective, scan results, reports, story narration) uses the **assistant voice**, which can be **female or male** (chosen in the tutorial or under "Aa Display", with a preview). The browser can only use voices installed on the device. By default `src/voices.ts` uses only **natural-sounding voices**, skipping the robotic or eerie ones some computers include, and keeps pitch changes small, because big changes sound creepy. It also avoids giving two people in the same scene the same voice. A child's voice is a real child voice where the browser has one (for example Microsoft Edge); otherwise it's a slightly raised voice. **More voice variety** (in Display) adds older computer voices so more characters sound different. Display also explains how to install better free voices. Character voices can be switched off.
@@ -141,8 +141,11 @@ shadowcase-ai/
   - "Learning from mistakes" is the share of your risky or dangerous choices that you went back and rewound. If you made none, you get full marks, so a perfect run is never penalised for not rewinding (earlier versions did this). Rewinding a safe choice doesn't count.
 - **AI Detective.** Unchanged features: evidence board with "Ask the AI partner", Playbook, decisions with **AI Rewind** (the server asks Claude to compare both choices), an AI-written report, and the Scam Scanner. Every AI panel says whether it is live AI or demo mode.
 
+### Difficulty (Story Game)
+🟢 **Easy:** hints say how many suspicious phrases each scene has, and Inspector Vale explains every choice. 🟡 **Medium** (default): Vale explains every choice, with no clue hints. 🔴 **Hard:** no hints, answers in a shuffled order, and no feedback until the ending, like real life. This is separate from **Easy View**, which is about reading comfort.
+
 ### Accessibility
-- **Easy Mode** (one switch): largest text, 60px buttons, high contrast, no animations, hides decorative effects, and adds 👉 plain-language hints on every screen.
+- **Easy View** (one switch): largest text, 60px buttons, high contrast, no animations, hides decorative effects, and adds 👉 plain-language hints on every screen.
 - Separate options for text size, high contrast and reduce motion.
 - Read-aloud buttons (browser speech; nothing leaves the device), keyboard focus rings, a skip link, `aria-live` announcements, tooltips that work on tap, hover and keyboard, a prominent 🏠 Home button, and layouts that work on phone and desktop.
 

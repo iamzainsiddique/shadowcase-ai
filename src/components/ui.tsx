@@ -30,7 +30,7 @@ export function Tip({ text, label = "What does this mean?" }: { text: string; la
   );
 }
 
-/** Extra plain-language help that only appears in Easy Mode. */
+/** Extra plain-language help that only appears in Easy View. */
 export function EasyHint({ children }: { children: ReactNode }) {
   const { effective } = useSettings();
   if (!effective.easyMode) return null;

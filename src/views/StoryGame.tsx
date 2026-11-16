@@ -12,6 +12,8 @@ import { SceneArt } from "../components/SceneArt";
 import { HelpCard } from "../components/HelpCard";
 import { ShareButton } from "../components/ShareButton";
 import { stopSpeaking, useAutoRead, type SpeechItem } from "../speech";
+import { useSettings } from "../settings";
+import { DIFFICULTY } from "../components/DifficultyChoice";
 import { markPlayed, setLastScenario, type PlayRequest } from "../share";
 import { ScenarioPicker, PERSPECTIVE_ICON, PERSPECTIVE_NAME } from "./ScenarioPicker";
 import { TrickBreakdown } from "./TrickBreakdown";
@@ -27,7 +29,7 @@ const SAFETY_TEXT: Record<Safety, { label: string; cls: string; icon: string }> 
   dangerous: { label: "Dangerous choice", cls: "text-danger", icon: "❌" },
 };
 const TONE_STYLE = { good: "text-safe border-safe/60", mixed: "text-caution border-caution/60", bad: "text-danger border-danger/60" };
-/** Seconds between dialogue lines appearing (animation only; turned off by Reduce Motion / Easy Mode). */
+/** Seconds between dialogue lines appearing (animation only; turned off by Reduce Motion / Easy View). */
 const LINE_GAP = 0.9;
 const FIRST_LINE = 0.4;
 
@@ -92,6 +94,11 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
   const story = getStory(state.storyId);
   const vars = storyVars(state);
   const node = resolveNode(getNode(state.nodeId), vars);
+  const { settings } = useSettings();
+  const difficulty = settings.difficulty ?? "medium";
+  // Hard: answers appear in a shuffled (but stable) order, so the safe answer isn't always in the same place.
+  const hash = (t: string) => [...t].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7);
+  const choices = node.choices && difficulty === "hard" ? [...node.choices].sort((a, b) => hash(a.id + state.rewinds) - hash(b.id + state.rewinds)) : node.choices;
   const rawEnding = currentEnding(state);
   const ending = rawEnding ? resolveEnding(rawEnding, vars) : null;
   const lastEntry = state.history[state.history.length - 1];
@@ -108,7 +115,7 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
   const sceneTexts: SpeechItem[] = [
     ...node.lines.map((l, i): SpeechItem => ({ text: l.text, role: l.speaker, id: ids.line(i) })),
     ...(node.message ? [{ text: `Message from ${node.message.from}.`, id: ids.message }, { text: node.message.text, id: ids.message }] : []),
-    ...(node.choices ? [{ text: story.question, id: ids.question }, ...node.choices.map((c, i) => ({ text: `Option ${i + 1}: ${c.label}`, id: ids.choice(i) }))] : []),
+    ...(choices ? [{ text: story.question, id: ids.question }, ...choices.map((c, i) => ({ text: `Option ${i + 1}: ${c.label}`, id: ids.choice(i) }))] : []),
     ...(ending ? [{ text: `Ending: ${ending.title}. ${ending.summary}`, id: ids.ending }, { text: `Lesson: ${ending.lesson}`, id: ids.lesson }] : []),
   ];
   const sceneKey = `scene-${state.storyId}-${state.nodeId}-${state.rewinds}-${state.history.length}`;
@@ -137,7 +144,8 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
 
   const pick = (choiceId: string) => {
     setState((s) => choose(s, choiceId));
-    setShowFeedback(true);
+    // Hard mode: no feedback until the end (the ending screen explains every decision).
+    setShowFeedback(difficulty !== "hard");
     setNotice("");
   };
 
@@ -162,6 +170,7 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
             <h1 className="h2">{scenario.scamType}</h1>
           </div>
           <div className="flex flex-wrap gap-2 text-sm">
+            <span className="chip border border-ink-600 text-slate-300">{DIFFICULTY[difficulty].icon} {DIFFICULTY[difficulty].label}</span>
             <span className="chip border border-ink-600 text-slate-300">Decisions made: {state.history.length}</span>
             <span className="chip border border-ink-600 text-slate-300">Endings found: {state.endingsFound.length}/{totalEndings}</span>
             <button className="chip border border-ink-600 text-slate-300 hover:border-electric-400" onClick={() => setScreen({ kind: "pick" })}>← All scams</button>
@@ -233,16 +242,21 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
               </div>
             )}
 
+            {difficulty === "easy" && node.clues && node.clues.length > 0 && (
+              <p className="rounded-xl border border-safe/50 bg-safe/10 p-3 text-lg">
+                💡 <strong>Hint:</strong> this scene has <strong>{node.clues.length}</strong> suspicious phrase{node.clues.length === 1 ? "" : "s"} to find. You've found {node.clues.filter((c) => state.clues.includes(c.id)).length}.
+              </p>
+            )}
             {node.clues && node.clues.length > 0 && <EasyHint>Tap any words that sound suspicious. They go into your detective notebook.</EasyHint>}
             <p aria-live="polite" className="min-h-[1.5rem] font-semibold text-electric-400">{notice}</p>
 
-            {node.choices && (
+            {choices && (
               <fieldset className="line-in space-y-3" style={{ animationDelay: `${FIRST_LINE + (node.lines.length + (node.message ? 1 : 0)) * LINE_GAP}s` }}>
                 <legend className="mb-1 w-full">
                   <Readable id={ids.question} className="inline-block px-2 py-1 text-lg font-semibold">{story.question}</Readable>
                 </legend>
                 <EasyHint>Choose one answer. Don't worry about getting it wrong. You can rewind and try again.</EasyHint>
-                {node.choices.map((c, i) => (
+                {choices!.map((c, i) => (
                   <Readable key={c.id} id={ids.choice(i)}>
                     <button onClick={() => pick(c.id)} className="btn-ghost w-full !justify-start text-left text-lg">
                       {c.label}
@@ -261,7 +275,7 @@ export function StoryGame({ onAiMode, onQuiz, request }: { onAiMode: () => void;
         )}
       </div>
 
-      <Notebook state={state} vars={vars} />
+      <Notebook state={state} vars={vars} hard={difficulty === "hard"} />
     </div>
   );
 }
@@ -345,7 +359,7 @@ function DialogueLine({ id, line, you, delay = 0, clues, found, onFind, onMiss }
   );
 }
 
-function Notebook({ state, vars }: { state: StoryState; vars: Record<string, string> }) {
+function Notebook({ state, vars, hard = false }: { state: StoryState; vars: Record<string, string>; hard?: boolean }) {
   const found = ALL_STORY_CLUES.filter((c) => state.clues.includes(c.id));
   const seen = cluesSeen(state).length;
   return (
@@ -353,7 +367,7 @@ function Notebook({ state, vars }: { state: StoryState; vars: Record<string, str
       <div className="flex items-center justify-between">
         <p className="font-display text-lg font-bold">📓 Notebook</p>
         <span className="chip border border-ink-600 text-slate-300">
-          {found.length}/{seen} clues
+          {hard ? `${found.length} found` : `${found.length}/${seen} clues`}
         </span>
       </div>
       {found.length === 0 ? (

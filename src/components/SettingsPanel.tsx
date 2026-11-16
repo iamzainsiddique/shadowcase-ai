@@ -1,4 +1,4 @@
-// "Display" panel: Easy Mode, text size, contrast, motion, and Replay Tutorial.
+// "Display" panel: Easy View, text size, contrast, motion, and Replay Tutorial.
 import { useEffect, useRef } from "react";
 import { useSettings, type TextSize } from "../settings";
 import { setVoicePrefs, speak, speechAvailable } from "../speech";
@@ -36,7 +36,7 @@ export function SettingsPanel({ onClose, onTutorial }: { onClose: () => void; on
         </div>
 
         <Toggle
-          label="⭐ Easy Mode"
+          label="⭐ Easy View"
           description="Biggest text and buttons, strong colours, no animations, and extra step-by-step tips. Recommended if you're new to games or computers."
           checked={settings.easyMode}
           onChange={(v) => update({ easyMode: v })}
@@ -58,7 +58,7 @@ export function SettingsPanel({ onClose, onTutorial }: { onClose: () => void; on
               </button>
             ))}
           </div>
-          {settings.easyMode && <p className="mt-2 text-sm text-slate-300">Easy Mode uses the largest text.</p>}
+          {settings.easyMode && <p className="mt-2 text-sm text-slate-300">Easy View uses the largest text.</p>}
         </fieldset>
 
         <Toggle

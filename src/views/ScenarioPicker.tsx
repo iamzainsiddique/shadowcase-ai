@@ -6,6 +6,7 @@ import { getPlayed, surprise, type PlayRequest } from "../share";
 import { useSettings } from "../settings";
 import { AUDIENCES } from "../../shared/audience";
 import { AudienceChoice } from "../components/AudienceChoice";
+import { DifficultyChoice } from "../components/DifficultyChoice";
 
 export const PERSPECTIVE_ICON: Record<PerspectiveKind | "tricks", string> = { victim: "👤", family: "👪", bank: "🏦", tricks: "🔍" };
 export const PERSPECTIVE_NAME: Record<PerspectiveKind | "tricks", string> = {
@@ -36,6 +37,8 @@ export function ScenarioPicker({ onPick }: { onPick: (r: PlayRequest) => void })
       <div className="card space-y-2 p-4">
         <p className="font-semibold">👥 Who's playing? <span className="font-normal text-slate-400">We'll show the scams most aimed at your age group first.</span></p>
         <AudienceChoice compact />
+        <p className="pt-2 font-semibold">🎯 Difficulty</p>
+        <DifficultyChoice />
       </div>
       <EasyHint>Not sure? Press “Surprise me”, or start with a scam marked ⭐ Recommended.</EasyHint>
 

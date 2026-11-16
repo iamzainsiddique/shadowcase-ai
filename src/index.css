@@ -124,3 +124,8 @@ html[data-easy="true"] .decorative { display: none !important; }
 }
 [data-contrast="high"] .reading-tag { background: #ffe600; color: #000; }
 [data-motion="reduce"] .reading-tag { animation: none; }
+
+/* Pop-up pointing at the ❓ Help button */
+.help-hint { animation: hintIn 0.35s ease-out both; }
+@keyframes hintIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+[data-motion="reduce"] .help-hint { animation: none; }

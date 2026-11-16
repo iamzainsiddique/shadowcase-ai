@@ -26,6 +26,14 @@ export default function App() {
   const [tab, setTab] = useState<DetectiveTab>("case");
   const [mode, setMode] = useState<Mode | "offline" | null>(null);
   const [showTutorial, setShowTutorial] = useState(() => !tutorialDone());
+  /** Pop-up pointing at ❓ Help, so people always know where the tutorial is. Shown when the app opens
+   *  without the tutorial, and again each time the tutorial is closed. */
+  const [helpHint, setHelpHint] = useState(() => tutorialDone());
+  useEffect(() => {
+    if (!helpHint) return;
+    const t = window.setTimeout(() => setHelpHint(false), 12000);
+    return () => window.clearTimeout(t);
+  }, [helpHint]);
   const [showSettings, setShowSettings] = useState(false);
   const { settings } = useSettings();
 
@@ -84,9 +92,29 @@ export default function App() {
               Aa <span>Display</span>
               {settings.easyMode && <span className="chip !px-2 !py-0 bg-electric-500 text-ink-950">Easy</span>}
             </button>
-            <button className="btn-ghost !min-h-[44px] !px-3" onClick={() => setShowTutorial(true)} aria-haspopup="dialog">
-              ❓ <span>Help</span>
-            </button>
+            <span className="relative">
+              <button
+                className={`btn-ghost !min-h-[44px] !px-3 ${helpHint ? "!border-caution ring-2 ring-caution" : ""}`}
+                onClick={() => {
+                  setHelpHint(false);
+                  setShowTutorial(true);
+                }}
+                aria-haspopup="dialog"
+              >
+                ❓ <span>Help</span>
+              </button>
+              {helpHint && !showTutorial && (
+                <div role="status" className="help-hint absolute right-0 top-full z-50 mt-3 w-72 rounded-2xl border-2 border-caution bg-ink-900 p-4 text-left shadow-2xl">
+                  <span aria-hidden className="absolute -top-2 right-6 h-4 w-4 rotate-45 border-l-2 border-t-2 border-caution bg-ink-900" />
+                  <p className="font-semibold text-white">👆 The tutorial is here</p>
+                  <p className="mt-1 text-slate-200">Press <strong>❓ Help</strong> any time to see how SHADOWCASE AI works.</p>
+                  <div className="mt-3 flex gap-2">
+                    <button className="btn-primary !min-h-[40px] !py-1.5 text-sm" onClick={() => { setHelpHint(false); setShowTutorial(true); }}>Show me now</button>
+                    <button className="btn-ghost !min-h-[40px] !py-1.5 text-sm" onClick={() => setHelpHint(false)}>Got it</button>
+                  </div>
+                </div>
+              )}
+            </span>
           </div>
         </div>
       </header>
@@ -127,7 +155,7 @@ export default function App() {
       )}
       {quiz && <Quiz phase={quiz} onClose={() => setQuiz(null)} />}
       <StopReadingButton />
-      {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} onStory={() => go("story")} onDetective={() => go("detective", "case")} />}
+      {showTutorial && <Tutorial onClose={() => { setShowTutorial(false); setHelpHint(true); }} onStory={() => go("story")} onDetective={() => go("detective", "case")} />}
     </div>
   );
 }

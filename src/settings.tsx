@@ -2,6 +2,7 @@
 // Easy Mode is a one-tap bundle: biggest text, high contrast, no animation, extra plain-language hints.
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { setVoicePrefs } from "./speech";
+import type { Audience } from "../shared/audience";
 
 export type TextSize = "normal" | "large" | "xl";
 
@@ -18,9 +19,11 @@ export interface Settings {
   characterVoices: boolean;
   /** Also use older, robotic-sounding voices so more characters sound different. Off = natural voices only. */
   voiceVariety: boolean;
+  /** "Who's playing?": tailors recommended scams (and turns on Easy Mode for older adults). */
+  audience: Audience | null;
 }
 
-const DEFAULTS: Settings = { textSize: "normal", easyMode: false, highContrast: false, reduceMotion: false, autoRead: false, assistantVoice: "female", characterVoices: true, voiceVariety: false };
+const DEFAULTS: Settings = { textSize: "normal", easyMode: false, highContrast: false, reduceMotion: false, autoRead: false, assistantVoice: "female", characterVoices: true, voiceVariety: false, audience: null };
 const KEY = "shadowcase.settings";
 
 function load(): Settings {

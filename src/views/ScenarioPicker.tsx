@@ -3,6 +3,9 @@ import { SCENARIOS, STORIES, type PerspectiveKind } from "../../shared/story";
 import { SceneArt } from "../components/SceneArt";
 import { EasyHint } from "../components/ui";
 import { getPlayed, surprise, type PlayRequest } from "../share";
+import { useSettings } from "../settings";
+import { AUDIENCES } from "../../shared/audience";
+import { AudienceChoice } from "../components/AudienceChoice";
 
 export const PERSPECTIVE_ICON: Record<PerspectiveKind | "tricks", string> = { victim: "👤", family: "👪", bank: "🏦", tricks: "🔍" };
 export const PERSPECTIVE_NAME: Record<PerspectiveKind | "tricks", string> = {
@@ -14,6 +17,10 @@ export const PERSPECTIVE_NAME: Record<PerspectiveKind | "tricks", string> = {
 
 export function ScenarioPicker({ onPick }: { onPick: (r: PlayRequest) => void }) {
   const played = getPlayed();
+  const { settings } = useSettings();
+  const recommended = settings.audience ? AUDIENCES[settings.audience].recommended : [];
+  // Recommended scams for the chosen age group come first.
+  const list = [...SCENARIOS].sort((a, b) => Number(recommended.includes(b.id)) - Number(recommended.includes(a.id)));
   return (
     <section className="space-y-6 animate-rise">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -26,16 +33,21 @@ export function ScenarioPicker({ onPick }: { onPick: (r: PlayRequest) => void })
         </div>
         <button className="btn-primary text-lg" onClick={() => onPick(surprise())}>🎲 Surprise me</button>
       </div>
-      <EasyHint>Not sure? Press “Surprise me”, or start with The Midnight Call as the person targeted.</EasyHint>
+      <div className="card space-y-2 p-4">
+        <p className="font-semibold">👥 Who's playing? <span className="font-normal text-slate-400">We'll show the scams most aimed at your age group first.</span></p>
+        <AudienceChoice compact />
+      </div>
+      <EasyHint>Not sure? Press “Surprise me”, or start with a scam marked ⭐ Recommended.</EasyHint>
 
       <div className="grid gap-5 md:grid-cols-2">
-        {SCENARIOS.map((sc) => (
+        {list.map((sc) => (
           <article key={sc.id} className="card flex flex-col overflow-hidden">
             <div className="pointer-events-none">
               <SceneArt art={sc.art} vars={sc.variants[0]} />
             </div>
             <div className="flex flex-1 flex-col gap-3 p-5">
               <div>
+                {recommended.includes(sc.id) && <p className="chip mb-1 w-fit border border-caution/60 bg-caution/15 text-caution">⭐ Recommended for {AUDIENCES[settings.audience!].label.toLowerCase()}s</p>}
                 <p className="text-sm font-semibold text-electric-400">{sc.icon} {sc.scamType}</p>
                 <h2 className="font-display text-2xl font-bold">{sc.title}</h2>
                 <p className="text-slate-300">{sc.tagline}</p>

@@ -6,20 +6,37 @@ import { ClickableText } from "./ClickableText";
 import { Progress } from "./ui";
 import { SpeakButton } from "./SpeakButton";
 import { VoiceChoice } from "./VoiceChoice";
+import { AudienceChoice } from "./AudienceChoice";
 import { speechAvailable, useAutoRead, useSpeech } from "../speech";
 
-const DONE_KEY = "shadowcase.tutorialDone";
+// The tutorial opens every time the app is opened (once per visit), unless the player ticks
+// "Don't show this when I open the app". It can always be replayed with ❓ Help.
+const HIDE_KEY = "shadowcase.tutorialHideAtStart";
+const SEEN_KEY = "shadowcase.tutorialSeenThisVisit";
 
 export function tutorialDone(): boolean {
   try {
-    return localStorage.getItem(DONE_KEY) === "1";
+    return localStorage.getItem(HIDE_KEY) === "1" || sessionStorage.getItem(SEEN_KEY) === "1";
   } catch {
     return false;
   }
 }
 function markDone() {
   try {
-    localStorage.setItem(DONE_KEY, "1");
+    sessionStorage.setItem(SEEN_KEY, "1");
+  } catch {}
+}
+function hiddenAtStart() {
+  try {
+    return localStorage.getItem(HIDE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function setHiddenAtStart(hide: boolean) {
+  try {
+    if (hide) localStorage.setItem(HIDE_KEY, "1");
+    else localStorage.removeItem(HIDE_KEY);
   } catch {}
 }
 
@@ -62,6 +79,7 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
   const [choice, setChoice] = useState<string | null>(null);
   const [rewound, setRewound] = useState(false);
   const { settings, update } = useSettings();
+  const [hideAtStart, setHide] = useState(hiddenAtStart);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const id = STEPS[step];
 
@@ -94,6 +112,18 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
           </div>
           <button className="btn-ghost !min-h-[44px] !px-3 text-sm" onClick={() => finish()}>Skip tutorial</button>
         </div>
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+          <input
+            type="checkbox"
+            className="h-5 w-5 accent-electric-500"
+            checked={hideAtStart}
+            onChange={(e) => {
+              setHide(e.target.checked);
+              setHiddenAtStart(e.target.checked);
+            }}
+          />
+          Don't show this tutorial when I open the app (you can always open it with ❓ Help)
+        </label>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="tut-title" ref={headingRef} tabIndex={-1} className="h2 focus:outline-none">
@@ -110,6 +140,7 @@ export function Tutorial({ onClose, onStory, onDetective }: { onClose: () => voi
             </p>
             <p>You'll look for clues, make choices, see what <em>could</em> happen, and rewind to try again. Nothing here is real, so it's a safe place to practise.</p>
             <p className="rounded-xl border border-caution/50 bg-caution/10 p-3 text-base">⚠️ This is an <strong>educational demonstration</strong>, not a tool for real-life situations. If something is happening to you for real, contact your bank and official services.</p>
+            <AudienceChoice />
             <p className="text-slate-300">This short tour takes about a minute. You can skip it at any time.</p>
           </div>
         )}

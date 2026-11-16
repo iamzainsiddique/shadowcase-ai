@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { ALL_STORY_CLUES, CHARACTERS, DUPLICATE_IDS, ENDINGS, NODES, SCENARIOS, SCENE_ART_IDS, START_NODE, STORIES, fill, resolveEnding, resolveNode } from "../shared/story";
 import { QUIZ_AFTER, QUIZ_BEFORE } from "../shared/quiz";
+import { AUDIENCES } from "../shared/audience";
 import { readPlayHash, surprise } from "../src/share";
 import { MODEL_CHECKS, scoreMessage } from "../src/ml/scamModel";
 import ML_RESULTS from "../ml/results.json";
@@ -345,6 +346,13 @@ test("device with only robotic voices still reads aloud", () => {
 test("device with no voices doesn't crash", () => {
   const c = castVoices([], "male");
   assert.equal(c.arthur.voiceName, undefined);
+});
+
+test("every age group recommends 3 real scenarios", () => {
+  for (const a of Object.values(AUDIENCES)) {
+    assert.equal(a.recommended.length, 3);
+    for (const id of a.recommended) assert.ok(SCENARIOS.some((s) => s.id === id), id);
+  }
 });
 
 console.log("\nTrained scam filter (ml/train.py → src/ml/scam-model.json)");

@@ -5,7 +5,7 @@
 /* Text-size setting (accessibility). Everything uses rem, so this scales the whole UI. */
 html { font-size: 18px; }
 html[data-size="large"] { font-size: 20px; }
-html[data-size="xl"] { font-size: 23px; }
+html[data-size="xl"] { font-size: 21px; }
 
 body {
   @apply bg-ink-950 text-slate-100 font-sans antialiased;
@@ -101,7 +101,8 @@ html[data-easy="true"] .decorative { display: none !important; }
   transition: box-shadow 0.25s ease, background-color 0.25s ease;
 }
 .reading-target.is-reading {
-  background-color: rgb(47 168 255 / 0.12);
+  /* A tint layered on top of the element's own background, so cards and dialogs stay solid. */
+  background-image: linear-gradient(rgb(47 168 255 / 0.12), rgb(47 168 255 / 0.12));
   box-shadow: 0 0 0 3px #2fa8ff, 0 0 24px rgb(47 168 255 / 0.45);
 }
 .reading-tag {
@@ -119,7 +120,7 @@ html[data-easy="true"] .decorative { display: none !important; }
 }
 @keyframes tagPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
 [data-contrast="high"] .reading-target.is-reading {
-  background-color: rgb(255 230 0 / 0.15);
+  background-image: linear-gradient(rgb(255 230 0 / 0.1), rgb(255 230 0 / 0.1));
   box-shadow: 0 0 0 4px #ffe600;
 }
 [data-contrast="high"] .reading-tag { background: #ffe600; color: #000; }
